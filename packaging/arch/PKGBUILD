@@ -1,10 +1,10 @@
-# Maintainer: YOUR_NAME <YOUR_EMAIL>
+# Maintainer: DotRedstone
 pkgname=fcitx5-dynamic-themes
 pkgver=0.2.0
 pkgrel=1
 pkgdesc='Provider-agnostic dynamic color themes for Fcitx5 Classic UI'
 arch=('any')
-url='https://github.com/OWNER/fcitx5-dynamic-themes'
+url='https://github.com/DotRedstone/fcitx5-dynamic-themes'
 license=('MIT')
 depends=('fcitx5' 'python')
 optdepends=('noctalia: Noctalia dynamic color provider')

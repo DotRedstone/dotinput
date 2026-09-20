@@ -66,9 +66,14 @@ test palette.
 ### Theme Studio
 
 [Open Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) to
-adjust semantic colors, rounded geometry including candidate inset, and the XWayland-safe angular
-variant with a live candidate-window preview. It exports one portable theme
-configuration matching [core/theme.schema.json](core/theme.schema.json).
+adjust semantic colors and every generated Classic UI geometry value: panel and
+highlight radius, outline, content and text margins, image slices, inner lines,
+vertical full-width highlighting, and candidate text factors. Common controls
+stay visible; low-frequency Fcitx5 controls are collected under Advanced. The
+rounded preview uses the same half-scale SVG geometry as the generated 30px
+asset with a 60px viewBox, rather than treating theme units as CSS pixels. It
+exports one portable theme configuration matching
+[core/theme.schema.json](core/theme.schema.json).
 The Studio has English and Simplified Chinese interfaces. Candidate orientation
 and candidate count are preview-only controls: they never enter the exported
 JSON and must be configured in Fcitx5 itself when you want to change real input
@@ -208,7 +213,9 @@ fcitx5-dynamic-themes render \
 ### Theme Studio 可视化编辑器
 
 打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，可直接调节
-语义色、圆角几何与候选内边距，以及适用于 XWayland 的切角方案，并实时预览候选窗。它会导出一个符合
+语义色及所有会写入 Classic UI 主题的几何参数：面板/高亮圆角、描边、内容与文字边距、图片切片、内环、
+纵向满宽高亮和候选文字缩放。常用项直接展示，低频 Fcitx5 项收在“高级参数”中。圆角预览遵循生成主题的
+30px SVG 画布与 60px viewBox 的半缩放关系，不再将主题单位直接当成 CSS 像素。它会导出一个符合
 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
 网站提供简体中文和英文界面。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
 导出的 JSON；实际输入法的候选窗行为仍需在 Fcitx5 中单独配置。

@@ -21,16 +21,33 @@ DEFAULT_DESIGN = {
     "highlight_radius": 9.0,
     "panel_outline_width": 1.25,
     "content_padding": 12.0,
+    "text_margin_horizontal": 9.0,
+    "text_margin_vertical": 6.0,
+    "text_margin_bottom": 7.0,
     "panel_inner_opacity": 0.5,
     "highlight_inner_opacity": 0.24,
+    "panel_slice_margin": 15.0,
+    "highlight_slice_margin_horizontal": 15.0,
+    "highlight_slice_margin_vertical": 10.0,
+    "full_width_highlight": True,
+    "candidate_label_scale": 1.0,
+    "candidate_comment_scale": 1.0,
 }
 DESIGN_LIMITS = {
-    "panel_radius": (0.0, 20.0),
-    "highlight_radius": (0.0, 20.0),
-    "panel_outline_width": (0.0, 3.0),
-    "content_padding": (4.0, 24.0),
+    "panel_radius": (0.0, 26.0),
+    "highlight_radius": (0.0, 25.0),
+    "panel_outline_width": (0.0, 6.0),
+    "content_padding": (0.0, 48.0),
+    "text_margin_horizontal": (0.0, 24.0),
+    "text_margin_vertical": (0.0, 24.0),
+    "text_margin_bottom": (0.0, 24.0),
     "panel_inner_opacity": (0.0, 1.0),
     "highlight_inner_opacity": (0.0, 1.0),
+    "panel_slice_margin": (4.0, 15.0),
+    "highlight_slice_margin_horizontal": (4.0, 15.0),
+    "highlight_slice_margin_vertical": (4.0, 15.0),
+    "candidate_label_scale": (0.5, 1.5),
+    "candidate_comment_scale": (0.5, 1.5),
 }
 
 
@@ -51,16 +68,21 @@ def validate_palette(palette: dict[str, object], mode: str) -> dict[str, str]:
     return checked
 
 
-def validate_design(design: object | None) -> dict[str, float]:
+def validate_design(design: object | None) -> dict[str, float | bool]:
     """Merge optional shape controls with defaults or raise ValueError."""
     if design is None:
         return DEFAULT_DESIGN.copy()
     if not isinstance(design, dict):
         raise ValueError("design must be an object")
 
-    checked = DEFAULT_DESIGN.copy()
+    checked: dict[str, float | bool] = DEFAULT_DESIGN.copy()
     for name, value in design.items():
         if name not in DESIGN_LIMITS:
+            if name == "full_width_highlight":
+                if not isinstance(value, bool):
+                    raise ValueError("design.full_width_highlight must be a boolean")
+                checked[name] = value
+                continue
             raise ValueError(f"unknown design field: {name}")
         if isinstance(value, bool) or not isinstance(value, (int, float)):
             raise ValueError(f"design.{name} must be a number")
@@ -76,7 +98,7 @@ def _number(value: float) -> str:
     return f"{value:g}"
 
 
-def _panel_svg(colors: dict[str, str], variant: str, design: dict[str, float]) -> str:
+def _panel_svg(colors: dict[str, str], variant: str, design: dict[str, float | bool]) -> str:
     if variant == "rounded":
         radius = _number(design["panel_radius"])
         inner_radius = _number(max(design["panel_radius"] - 2.5, 0.0))
@@ -97,7 +119,7 @@ def _panel_svg(colors: dict[str, str], variant: str, design: dict[str, float]) -
 '''
 
 
-def _highlight_svg(colors: dict[str, str], variant: str, design: dict[str, float]) -> str:
+def _highlight_svg(colors: dict[str, str], variant: str, design: dict[str, float | bool]) -> str:
     if variant == "rounded":
         radius = _number(design["highlight_radius"])
         inner_radius = _number(max(design["highlight_radius"] - 2.0, 0.0))
@@ -119,10 +141,19 @@ def _highlight_svg(colors: dict[str, str], variant: str, design: dict[str, float
 
 
 def _theme_conf(
-    colors: dict[str, str], name: str, variant: str, design: dict[str, float]
+    colors: dict[str, str], name: str, variant: str, design: dict[str, float | bool]
 ) -> str:
     compatibility = "native Wayland apps" if variant == "rounded" else "XWayland-compatible apps"
-    content_padding = _number(design["content_padding"])
+    content_padding = _number(float(design["content_padding"]))
+    text_margin_horizontal = _number(float(design["text_margin_horizontal"]))
+    text_margin_vertical = _number(float(design["text_margin_vertical"]))
+    text_margin_bottom = _number(float(design["text_margin_bottom"]))
+    panel_slice_margin = _number(float(design["panel_slice_margin"]))
+    highlight_slice_margin_horizontal = _number(float(design["highlight_slice_margin_horizontal"]))
+    highlight_slice_margin_vertical = _number(float(design["highlight_slice_margin_vertical"]))
+    full_width_highlight = "True" if design["full_width_highlight"] else "False"
+    candidate_label_scale = _number(float(design["candidate_label_scale"]))
+    candidate_comment_scale = _number(float(design["candidate_comment_scale"]))
     return f'''[Metadata]
 Name={name}
 Version=0.3.0
@@ -135,7 +166,9 @@ HighlightCandidateColor={colors['on_primary']}
 HighlightColor={colors['on_primary']}
 HighlightBackgroundColor={colors['primary']}
 EnableBlur=False
-FullWidthHighlight=True
+FullWidthHighlight={full_width_highlight}
+CandidateLabelTextSizeFactor={candidate_label_scale}
+CandidateCommentTextSizeFactor={candidate_comment_scale}
 
 [InputPanel/Background]
 Image=panel.svg
@@ -144,10 +177,10 @@ BorderColor={colors['outline_variant']}
 BorderWidth=0
 
 [InputPanel/Background/Margin]
-Left=15
-Right=15
-Top=15
-Bottom=15
+Left={panel_slice_margin}
+Right={panel_slice_margin}
+Top={panel_slice_margin}
+Bottom={panel_slice_margin}
 
 [InputPanel/Highlight]
 Image=highlight.svg
@@ -156,10 +189,10 @@ BorderColor={colors['primary']}
 BorderWidth=0
 
 [InputPanel/Highlight/Margin]
-Left=15
-Right=15
-Top=10
-Bottom=10
+Left={highlight_slice_margin_horizontal}
+Right={highlight_slice_margin_horizontal}
+Top={highlight_slice_margin_vertical}
+Bottom={highlight_slice_margin_vertical}
 
 [InputPanel/ContentMargin]
 Left={content_padding}
@@ -168,10 +201,10 @@ Top={content_padding}
 Bottom={content_padding}
 
 [InputPanel/TextMargin]
-Left=9
-Right=9
-Top=6
-Bottom=7
+Left={text_margin_horizontal}
+Right={text_margin_horizontal}
+Top={text_margin_vertical}
+Bottom={text_margin_bottom}
 
 [Menu]
 NormalColor={colors['on_surface']}

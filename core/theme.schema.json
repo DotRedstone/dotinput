@@ -16,12 +16,21 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "panel_radius": { "type": "number", "minimum": 0, "maximum": 20 },
-        "highlight_radius": { "type": "number", "minimum": 0, "maximum": 20 },
-        "panel_outline_width": { "type": "number", "minimum": 0, "maximum": 3 },
-        "content_padding": { "type": "number", "minimum": 4, "maximum": 24 },
+        "panel_radius": { "type": "number", "minimum": 0, "maximum": 26 },
+        "highlight_radius": { "type": "number", "minimum": 0, "maximum": 25 },
+        "panel_outline_width": { "type": "number", "minimum": 0, "maximum": 6 },
+        "content_padding": { "type": "number", "minimum": 0, "maximum": 48 },
+        "text_margin_horizontal": { "type": "number", "minimum": 0, "maximum": 24 },
+        "text_margin_vertical": { "type": "number", "minimum": 0, "maximum": 24 },
+        "text_margin_bottom": { "type": "number", "minimum": 0, "maximum": 24 },
         "panel_inner_opacity": { "type": "number", "minimum": 0, "maximum": 1 },
-        "highlight_inner_opacity": { "type": "number", "minimum": 0, "maximum": 1 }
+        "highlight_inner_opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "panel_slice_margin": { "type": "number", "minimum": 4, "maximum": 15 },
+        "highlight_slice_margin_horizontal": { "type": "number", "minimum": 4, "maximum": 15 },
+        "highlight_slice_margin_vertical": { "type": "number", "minimum": 4, "maximum": 15 },
+        "full_width_highlight": { "type": "boolean" },
+        "candidate_label_scale": { "type": "number", "minimum": 0.5, "maximum": 1.5 },
+        "candidate_comment_scale": { "type": "number", "minimum": 0.5, "maximum": 1.5 }
       }
     }
   }

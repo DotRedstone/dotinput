@@ -3,12 +3,21 @@
   "mode": "dark",
   "variant": "rounded",
   "design": {
-    "panel_radius": 12,
-    "highlight_radius": 9,
-    "panel_outline_width": 1.25,
-    "content_padding": 12,
+    "panel_radius": 20,
+    "highlight_radius": 20,
+    "panel_outline_width": 3,
+    "content_padding": 32,
+    "text_margin_horizontal": 9,
+    "text_margin_vertical": 6,
+    "text_margin_bottom": 7,
     "panel_inner_opacity": 0.5,
-    "highlight_inner_opacity": 0.24
+    "highlight_inner_opacity": 0.5,
+    "panel_slice_margin": 15,
+    "highlight_slice_margin_horizontal": 13,
+    "highlight_slice_margin_vertical": 13,
+    "full_width_highlight": true,
+    "candidate_label_scale": 1,
+    "candidate_comment_scale": 1
   },
   "palette": {
     "light": {

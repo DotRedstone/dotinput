@@ -36,6 +36,10 @@ class RendererTests(unittest.TestCase):
             render_theme(validate_palette(PALETTE, "dark"), "rounded", target, "test-theme")
             self.assertIn('rx="12"', (target / "panel.svg").read_text())
             self.assertIn('rx="9"', (target / "highlight.svg").read_text())
+            self.assertIn(
+                "[InputPanel/Highlight/Margin]\nLeft=15\nRight=15\nTop=10\nBottom=10",
+                (target / "theme.conf").read_text(),
+            )
 
     def test_palette_requires_semantic_roles(self):
         with self.assertRaises(ValueError):
@@ -43,9 +47,11 @@ class RendererTests(unittest.TestCase):
 
     def test_design_rejects_unknown_or_out_of_range_fields(self):
         with self.assertRaises(ValueError):
-            validate_design({"panel_radius": 21})
+            validate_design({"panel_radius": 27})
         with self.assertRaises(ValueError):
-            validate_design({"content_padding": 3})
+            validate_design({"content_padding": 49})
+        with self.assertRaises(ValueError):
+            validate_design({"full_width_highlight": 1})
         with self.assertRaises(ValueError):
             validate_design({"unexpected": 1})
 
@@ -61,7 +67,16 @@ class RendererTests(unittest.TestCase):
                         "mode": "dark",
                         "variant": "rounded",
                         "palette": PALETTE,
-                        "design": {"panel_radius": 6, "highlight_radius": 4, "content_padding": 16},
+                        "design": {
+                            "panel_radius": 6,
+                            "highlight_radius": 4,
+                            "content_padding": 16,
+                            "text_margin_horizontal": 8,
+                            "text_margin_vertical": 5,
+                            "text_margin_bottom": 6,
+                            "full_width_highlight": False,
+                            "candidate_label_scale": 0.8,
+                        },
                     }
                 ),
                 encoding="utf-8",
@@ -70,6 +85,10 @@ class RendererTests(unittest.TestCase):
             self.assertIn('rx="6"', (target / "panel.svg").read_text())
             self.assertIn('rx="4"', (target / "highlight.svg").read_text())
             self.assertIn("[InputPanel/ContentMargin]\nLeft=16", (target / "theme.conf").read_text())
+            self.assertIn("FullWidthHighlight=False", (target / "theme.conf").read_text())
+            self.assertIn("CandidateLabelTextSizeFactor=0.8", (target / "theme.conf").read_text())
+            self.assertIn("[InputPanel/TextMargin]\nLeft=8", (target / "theme.conf").read_text())
+            self.assertIn("Top=5\nBottom=6", (target / "theme.conf").read_text())
 
     def test_cli_rejects_unsafe_theme_config_name(self):
         with self.assertRaises(SystemExit):

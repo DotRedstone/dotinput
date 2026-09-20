@@ -2,15 +2,15 @@
 # scripts/install.sh writes an equivalent, ready-to-use configuration.
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_light_theme]
-input_path = "@PROJECT_ROOT@/themes/rounded-light/theme.conf.template"
-output_path = "/home/USER/.local/share/fcitx5/themes/noctalia-dynamic-rounded-light/theme.conf"
+input_path = "@PROJECT_ROOT@/providers/noctalia/templates/rounded-light/theme.conf.template"
+output_path = "/home/USER/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/theme.conf"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_light_panel]
-input_path = "@PROJECT_ROOT@/themes/rounded-light/panel.svg.template"
-output_path = "/home/USER/.local/share/fcitx5/themes/noctalia-dynamic-rounded-light/panel.svg"
+input_path = "@PROJECT_ROOT@/providers/noctalia/templates/rounded-light/panel.svg.template"
+output_path = "/home/USER/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/panel.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_light_highlight]
-input_path = "@PROJECT_ROOT@/themes/rounded-light/highlight.svg.template"
-output_path = "/home/USER/.local/share/fcitx5/themes/noctalia-dynamic-rounded-light/highlight.svg"
+input_path = "@PROJECT_ROOT@/providers/noctalia/templates/rounded-light/highlight.svg.template"
+output_path = "/home/USER/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/highlight.svg"
 
 # Repeat the same three entries for rounded-dark, angular-light, and angular-dark.

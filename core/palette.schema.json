@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fcitx5 Dynamic Themes semantic palette",
+  "type": "object",
+  "required": ["light", "dark"],
+  "properties": {
+    "light": { "$ref": "#/$defs/mode" },
+    "dark": { "$ref": "#/$defs/mode" }
+  },
+  "$defs": {
+    "mode": {
+      "type": "object",
+      "required": ["surface", "surface_container_low", "surface_container_high", "on_surface", "primary", "on_primary", "outline", "outline_variant"],
+      "additionalProperties": false,
+      "properties": {
+        "surface": { "$ref": "#/$defs/color" },
+        "surface_container_low": { "$ref": "#/$defs/color" },
+        "surface_container_high": { "$ref": "#/$defs/color" },
+        "on_surface": { "$ref": "#/$defs/color" },
+        "primary": { "$ref": "#/$defs/color" },
+        "on_primary": { "$ref": "#/$defs/color" },
+        "outline": { "$ref": "#/$defs/color" },
+        "outline_variant": { "$ref": "#/$defs/color" }
+      }
+    },
+    "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$" }
+  }
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+project_root="${FCITX5_DYNAMIC_THEMES_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 config_file="${XDG_CONFIG_HOME:-$HOME/.config}/noctalia/user-templates.toml"
 apply_templates=true
 
@@ -31,7 +31,7 @@ while (($#)); do
 done
 
 for theme in rounded-light rounded-dark angular-light angular-dark; do
-  mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/fcitx5/themes/noctalia-dynamic-$theme"
+  mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/fcitx5/themes/fcitx5-dynamic-$theme"
 done
 
 mkdir -p "$(dirname "$config_file")"
@@ -42,54 +42,54 @@ if ! grep -Fq 'noctalia_fcitx5_dynamic_rounded_light_theme' "$config_file"; then
   cp -p "$config_file" "$backup"
   cat >> "$config_file" <<EOF
 
-# Noctalia Fcitx5 Dynamic: managed by $project_root/scripts/install.sh
+# Fcitx5 Dynamic Themes / Noctalia provider: managed by $project_root/scripts/install.sh
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_light_theme]
-input_path = "$project_root/themes/rounded-light/theme.conf.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-rounded-light/theme.conf"
+input_path = "$project_root/providers/noctalia/templates/rounded-light/theme.conf.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/theme.conf"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_light_panel]
-input_path = "$project_root/themes/rounded-light/panel.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-rounded-light/panel.svg"
+input_path = "$project_root/providers/noctalia/templates/rounded-light/panel.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/panel.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_light_highlight]
-input_path = "$project_root/themes/rounded-light/highlight.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-rounded-light/highlight.svg"
+input_path = "$project_root/providers/noctalia/templates/rounded-light/highlight.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/highlight.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_dark_theme]
-input_path = "$project_root/themes/rounded-dark/theme.conf.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-rounded-dark/theme.conf"
+input_path = "$project_root/providers/noctalia/templates/rounded-dark/theme.conf.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-dark/theme.conf"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_dark_panel]
-input_path = "$project_root/themes/rounded-dark/panel.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-rounded-dark/panel.svg"
+input_path = "$project_root/providers/noctalia/templates/rounded-dark/panel.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-dark/panel.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_rounded_dark_highlight]
-input_path = "$project_root/themes/rounded-dark/highlight.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-rounded-dark/highlight.svg"
+input_path = "$project_root/providers/noctalia/templates/rounded-dark/highlight.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-dark/highlight.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_angular_light_theme]
-input_path = "$project_root/themes/angular-light/theme.conf.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-angular-light/theme.conf"
+input_path = "$project_root/providers/noctalia/templates/angular-light/theme.conf.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-angular-light/theme.conf"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_angular_light_panel]
-input_path = "$project_root/themes/angular-light/panel.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-angular-light/panel.svg"
+input_path = "$project_root/providers/noctalia/templates/angular-light/panel.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-angular-light/panel.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_angular_light_highlight]
-input_path = "$project_root/themes/angular-light/highlight.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-angular-light/highlight.svg"
+input_path = "$project_root/providers/noctalia/templates/angular-light/highlight.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-angular-light/highlight.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_angular_dark_theme]
-input_path = "$project_root/themes/angular-dark/theme.conf.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-angular-dark/theme.conf"
+input_path = "$project_root/providers/noctalia/templates/angular-dark/theme.conf.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-angular-dark/theme.conf"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_angular_dark_panel]
-input_path = "$project_root/themes/angular-dark/panel.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-angular-dark/panel.svg"
+input_path = "$project_root/providers/noctalia/templates/angular-dark/panel.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-angular-dark/panel.svg"
 
 [theme.templates.user.noctalia_fcitx5_dynamic_angular_dark_highlight]
-input_path = "$project_root/themes/angular-dark/highlight.svg.template"
-output_path = "$HOME/.local/share/fcitx5/themes/noctalia-dynamic-angular-dark/highlight.svg"
+input_path = "$project_root/providers/noctalia/templates/angular-dark/highlight.svg.template"
+output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-angular-dark/highlight.svg"
 post_hook = "busctl --user call org.fcitx.Fcitx5 /controller org.fcitx.Fcitx.Controller1 ReloadAddonConfig s classicui >/dev/null 2>&1 || true"
 EOF
   printf 'Added Noctalia template entries. Backup: %s\n' "$backup"

@@ -1,3 +1,5 @@
 /generated/
 /.direnv/
 /result
+__pycache__/
+*.egg-info/

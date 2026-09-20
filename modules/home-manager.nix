@@ -1,28 +1,34 @@
 # ---
-# Module: Noctalia Fcitx5 Dynamic Theme
-# Description: Installs the standalone Noctalia template integration during Home Manager activation.
+# Module: Fcitx5 Dynamic Themes
+# Description: Installs the optional Noctalia provider during Home Manager activation.
 # Scope: Home Manager
 # ---
 
 { config, lib, ... }:
 
 let
-  cfg = config.programs.noctaliaFcitx5Dynamic;
+  cfg = config.programs.fcitx5DynamicThemes;
 in
 {
-  options.programs.noctaliaFcitx5Dynamic = {
-    enable = lib.mkEnableOption "Noctalia Fcitx5 Dynamic theme templates";
+  options.programs.fcitx5DynamicThemes = {
+    enable = lib.mkEnableOption "the Noctalia provider for Fcitx5 Dynamic Themes";
 
     source = lib.mkOption {
       type = lib.types.path;
       default = ../.;
-      description = "Checkout path containing the Noctalia Fcitx5 Dynamic installer.";
+      description = "Path containing the Fcitx5 Dynamic Themes Noctalia provider.";
+    };
+
+    applyOnActivation = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Apply the current Noctalia palette after the provider setup completes.";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    home.activation.noctaliaFcitx5Dynamic = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${cfg.source}/scripts/install.sh --no-apply
+    home.activation.fcitx5DynamicThemes = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      ${cfg.source}/scripts/install.sh ${lib.optionalString (!cfg.applyOnActivation) "--no-apply"}
     '';
   };
 }

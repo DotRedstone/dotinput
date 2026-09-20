@@ -1,0 +1,30 @@
+# Maintainer: YOUR_NAME <YOUR_EMAIL>
+pkgname=fcitx5-dynamic-themes
+pkgver=0.2.0
+pkgrel=1
+pkgdesc='Provider-agnostic dynamic color themes for Fcitx5 Classic UI'
+arch=('any')
+url='https://github.com/OWNER/fcitx5-dynamic-themes'
+license=('MIT')
+depends=('fcitx5' 'python')
+optdepends=('noctalia: Noctalia dynamic color provider')
+makedepends=('python-build' 'python-installer' 'python-setuptools')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm755 scripts/install.sh "$pkgdir/usr/lib/$pkgname/noctalia-setup"
+  cp -r providers "$pkgdir/usr/share/fcitx5-dynamic-themes/providers"
+  install -Dm755 /dev/stdin "$pkgdir/usr/bin/fcitx5-dynamic-themes-noctalia-setup" <<'EOF'
+#!/usr/bin/env bash
+FCITX5_DYNAMIC_THEMES_ROOT=/usr/share/fcitx5-dynamic-themes exec /usr/lib/fcitx5-dynamic-themes/noctalia-setup "$@"
+EOF
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

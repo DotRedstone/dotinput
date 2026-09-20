@@ -1,0 +1,22 @@
+{
+  "light": {
+    "surface": "#FFFBFF",
+    "surface_container_low": "#F7F2FA",
+    "surface_container_high": "#ECE6F0",
+    "on_surface": "#1D1B20",
+    "primary": "#6750A4",
+    "on_primary": "#FFFFFF",
+    "outline": "#79747E",
+    "outline_variant": "#CAC4D0"
+  },
+  "dark": {
+    "surface": "#1D1B20",
+    "surface_container_low": "#1D1B20",
+    "surface_container_high": "#2B2930",
+    "on_surface": "#E6E1E5",
+    "primary": "#D0BCFF",
+    "on_primary": "#381E72",
+    "outline": "#938F99",
+    "outline_variant": "#49454F"
+  }
+}

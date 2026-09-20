@@ -15,6 +15,16 @@ fully integrated provider, not a project-wide requirement.
 | Arch PKGBUILD | Ready | `packaging/arch/PKGBUILD` |
 | AUR | Pending AUR SSH key | Package name: `fcitx5-dynamic-themes` |
 
+### Start here
+
+1. Open [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) and pick a preset.
+2. Adjust its colors or geometry only when you want to, then download the JSON.
+3. Run `fcitx5-dynamic-themes render --config ~/Downloads/my-fcitx-theme.json --reload`.
+
+For automatic wallpaper-synchronized colors, use the Noctalia setup below instead:
+it manages the palette updates while you keep the generated rounded theme
+selected in Fcitx5.
+
 ### Theme family
 
 | Theme | Intended clients | Shape language |
@@ -60,15 +70,15 @@ test palette.
 
 ### Theme Studio
 
-[Open Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) to
-adjust semantic colors and every generated Classic UI geometry value: panel and
+[Open Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) includes
+five ready-to-render presets: Studio, Sea Glass, Orchid Ink, Citrus Note, and
+Rose Quartz. Each preset has light and dark semantic palettes plus matching
+rounded geometry. All supported output controls are visible: panel and
 highlight radius, outline, content and text margins, image slices, inner lines,
-vertical full-width highlighting, and candidate text factors. Common controls
-stay visible; low-frequency Fcitx5 controls are collected under Advanced. The
-rounded preview uses the same half-scale SVG geometry as the generated 30px
-asset with a 60px viewBox. Fcitx5 content and text margins remain raw pixels,
-rather than treating every theme value as a CSS pixel transform. It
-exports one portable theme configuration matching
+vertical full-width highlighting, and candidate comment scale. The rounded
+preview uses the same half-scale SVG geometry as the generated 30px asset with
+a 60px viewBox. Fcitx5 content and text margins remain raw pixels. It exports
+one portable theme configuration matching
 [core/theme.schema.json](core/theme.schema.json).
 The Studio has English and Simplified Chinese interfaces. Candidate orientation
 and candidate count are preview-only controls: they never enter the exported
@@ -171,6 +181,15 @@ nix build .# --no-link
 | Arch PKGBUILD | 已可用 | `packaging/arch/PKGBUILD` |
 | AUR | 等待 AUR SSH 密钥 | 包名：`fcitx5-dynamic-themes` |
 
+### 三步开始
+
+1. 打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，先选一套预设。
+2. 只在需要时微调颜色或几何参数，然后下载 JSON。
+3. 运行 `fcitx5-dynamic-themes render --config ~/Downloads/my-fcitx-theme.json --reload`。
+
+想让配色跟壁纸自动同步，则使用下面的 Noctalia 接入：它负责更新调色板，而 Fcitx5
+继续选择生成出的圆角主题即可。
+
 ### 主题族
 
 | 主题 | 适用客户端 | 外观语言 |
@@ -213,11 +232,11 @@ fcitx5-dynamic-themes render \
 
 ### Theme Studio 可视化编辑器
 
-打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，可直接调节
-语义色及所有会写入 Classic UI 主题的几何参数：面板/高亮圆角、描边、内容与文字边距、图片切片、内环、
-纵向满宽高亮和候选文字缩放。常用项直接展示，低频 Fcitx5 项收在“高级参数”中。圆角预览遵循生成主题的
-30px SVG 画布与 60px viewBox 的半缩放关系；而 Fcitx5 的内容和文字边距仍按原始像素计算。它会导出一个符合
-[core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
+打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，先从五套可直接渲染的预设中选择：
+工作室、海玻璃、兰墨、柑橘便签和蔷薇石英。每套都包含深浅两组语义色与匹配的圆角几何参数。所有支持写入
+主题的参数都直接展示：面板/高亮圆角、描边、内容与文字边距、图片切片、内环、纵向满宽高亮和候选注释缩放。
+圆角预览遵循生成主题的 30px SVG 画布与 60px viewBox 的半缩放关系；而 Fcitx5 的内容和文字边距仍按原始像素
+计算。它会导出一个符合 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
 网站提供简体中文和英文界面。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
 导出的 JSON；实际输入法的候选窗行为仍需在 Fcitx5 中单独配置。
 

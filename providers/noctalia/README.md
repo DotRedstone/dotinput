@@ -1,17 +1,34 @@
 # Noctalia provider
 
-Noctalia v5 already owns a semantic palette and a template lifecycle. This
-provider keeps rendering inside Noctalia: its template files use Noctalia color
-variables and produce the Fcitx5 theme files directly when the palette changes.
+Use this provider when Noctalia already controls your desktop palette and you
+want Fcitx5 to follow it automatically.
+
+## Setup
 
 ```bash
+git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
+cd fcitx5-dynamic-themes
 ./scripts/install.sh
 ```
 
-The script creates writable output directories under
-`~/.local/share/fcitx5/themes`, adds idempotent entries to Noctalia's
-`user-templates.toml`, runs `noctalia msg templates-apply`, then asks Fcitx5
-Classic UI to reload through D-Bus. It does not select a Fcitx5 theme.
+Then choose `fcitx5-dynamic-rounded-dark` as the dark Classic UI theme and
+`fcitx5-dynamic-rounded-light` as the light theme in Fcitx5 Configuration Tool.
+Noctalia will regenerate those two writable themes whenever its palette changes.
 
-This adapter has no Rime dependency. Use `rounded` for native Wayland clients
-and `angular` for compatibility-sensitive XWayland clients.
+## What the installer changes
+
+The script creates output directories in `~/.local/share/fcitx5/themes`, adds
+idempotent entries to Noctalia's `user-templates.toml`, applies the current
+palette, and reloads Classic UI. It does not change your selected Fcitx5 theme,
+Rime configuration, candidate layout, or other input-method settings.
+
+## Troubleshooting
+
+After changing a Noctalia palette, apply templates manually if needed:
+
+```bash
+noctalia msg templates-apply
+fcitx5-remote -r
+```
+
+This adapter has no Rime dependency and only generates the rounded theme family.

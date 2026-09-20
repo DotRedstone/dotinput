@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <title>Fcitx5 Dynamic Themes Studio</title>
-    <link rel="stylesheet" href="styles.css?v=fcitx-layout-v3" />
+    <link rel="stylesheet" href="styles.css?v=fcitx-layout-v4" />
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <script src="app.js?v=fcitx-layout-v6" defer></script>
+    <script src="app.js?v=fcitx-layout-v7" defer></script>
   </head>
   <body>
     <header class="top-app-bar">
@@ -26,6 +26,10 @@
         <label class="field-label" for="theme-name" data-i18n="themeName">Theme name</label>
         <input id="theme-name" class="text-input" type="text" maxlength="64" spellcheck="false" />
         <button id="reset-theme" class="outlined-button" type="button"><i data-lucide="rotate-ccw"></i><span data-i18n="restoreDefaults">Restore theme defaults</span></button>
+        <section class="control-section">
+          <h2 data-i18n="presets">Presets</h2>
+          <div id="preset-grid" class="preset-grid" role="list"></div>
+        </section>
         <section class="control-section">
           <h2 data-i18n="appearance">Appearance</h2>
           <span class="field-label" data-i18n="colorMode">Color mode</span>

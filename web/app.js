@@ -11,6 +11,9 @@ const copy = {
   },
 };
 
+copy.en.presets = "Presets";
+copy.zh.presets = "预设主题";
+
 const defaults = {
   name: "my-fcitx-theme",
   mode: "dark",
@@ -26,6 +29,14 @@ const defaults = {
     full_width_highlight: true, candidate_comment_scale: 1,
   },
 };
+
+const presets = [
+  { id: "studio", names: { en: "Studio", zh: "工作室" }, config: structuredClone(defaults) },
+  { id: "sea-glass", names: { en: "Sea Glass", zh: "海玻璃" }, config: { name: "sea-glass", mode: "dark", variant: "rounded", palette: { light: { surface: "#F7FBF8", surface_container_low: "#EAF5F0", surface_container_high: "#DDECE5", on_surface: "#17201D", primary: "#176B59", on_primary: "#FFFFFF", outline: "#65756E", outline_variant: "#C1D0C8" }, dark: { surface: "#18201D", surface_container_low: "#1D2722", surface_container_high: "#29342E", on_surface: "#E1E8E2", primary: "#7FD8B4", on_primary: "#003824", outline: "#8B9B92", outline_variant: "#3E4C45" } }, design: { panel_radius: 20, highlight_radius: 18, panel_outline_width: 2, content_padding: 4, text_margin_horizontal: 12, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.46, highlight_inner_opacity: 0.2, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
+  { id: "orchid-ink", names: { en: "Orchid Ink", zh: "兰墨" }, config: { name: "orchid-ink", mode: "dark", variant: "rounded", palette: { light: { surface: "#FCF8FC", surface_container_low: "#F7EFF7", surface_container_high: "#EEDFED", on_surface: "#251A25", primary: "#844D83", on_primary: "#FFFFFF", outline: "#806F7E", outline_variant: "#D1C2CF" }, dark: { surface: "#231B24", surface_container_low: "#2C222D", surface_container_high: "#392C3A", on_surface: "#F0E4EF", primary: "#ECB8E8", on_primary: "#4E1A50", outline: "#A996A5", outline_variant: "#544654" } }, design: { panel_radius: 24, highlight_radius: 22, panel_outline_width: 2.5, content_padding: 3, text_margin_horizontal: 13, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.5, highlight_inner_opacity: 0.28, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
+  { id: "citrus-note", names: { en: "Citrus Note", zh: "柑橘便签" }, config: { name: "citrus-note", mode: "light", variant: "rounded", palette: { light: { surface: "#FFF9F0", surface_container_low: "#FFF1DB", surface_container_high: "#FCE2C0", on_surface: "#2B2114", primary: "#9A4F00", on_primary: "#FFFFFF", outline: "#866F55", outline_variant: "#DBC5A8" }, dark: { surface: "#2A2117", surface_container_low: "#34291D", surface_container_high: "#443523", on_surface: "#F6E7D0", primary: "#FFB869", on_primary: "#542400", outline: "#B59B7D", outline_variant: "#5E4B38" } }, design: { panel_radius: 16, highlight_radius: 14, panel_outline_width: 2, content_padding: 6, text_margin_horizontal: 11, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.42, highlight_inner_opacity: 0.22, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
+  { id: "rose-quartz", names: { en: "Rose Quartz", zh: "蔷薇石英" }, config: { name: "rose-quartz", mode: "dark", variant: "rounded", palette: { light: { surface: "#FFF8F8", surface_container_low: "#FDEEF0", surface_container_high: "#F6DFE3", on_surface: "#28191D", primary: "#A43D63", on_primary: "#FFFFFF", outline: "#886D75", outline_variant: "#DDC1C9" }, dark: { surface: "#291B20", surface_container_low: "#342127", surface_container_high: "#432B33", on_surface: "#F6E2E8", primary: "#FFB1C6", on_primary: "#651331", outline: "#B49AA3", outline_variant: "#5E444D" } }, design: { panel_radius: 22, highlight_radius: 20, panel_outline_width: 2.2, content_padding: 4, text_margin_horizontal: 12, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.48, highlight_inner_opacity: 0.26, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
+];
 
 let state = structuredClone(defaults);
 let preview = { layout: "horizontal", candidateCount: 5 };
@@ -102,6 +113,15 @@ function renderColorControls() {
   }));
 }
 
+function renderPresets() {
+  byId("preset-grid").replaceChildren(...presets.map((preset) => {
+    const button = document.createElement("button"); button.type = "button"; button.className = `preset-button${state.name === preset.config.name ? " active" : ""}`; button.setAttribute("role", "listitem"); button.title = preset.names[language]; button.setAttribute("aria-label", preset.names[language]);
+    const swatches = document.createElement("span"); swatches.className = "preset-swatches";
+    ["surface", "primary", "outline_variant"].forEach((role) => { const swatch = document.createElement("span"); swatch.className = "preset-swatch"; swatch.style.background = preset.config.palette[preset.config.mode][role]; swatches.append(swatch); });
+    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = preset.names[language]; button.append(swatches, name); button.addEventListener("click", () => { state = structuredClone(preset.config); render(); }); return button;
+  }));
+}
+
 function renderCandidates() {
   byId("candidates").replaceChildren(...candidateWords.slice(0, preview.candidateCount).map((word, index) => {
     const item = document.createElement("div"); item.className = `candidate${index === 0 ? " selected" : ""}`;
@@ -121,7 +141,7 @@ function render() {
   byId("full-width-highlight").checked = state.design.full_width_highlight;
   byId("candidate-count").value = preview.candidateCount; byId("candidate-less").disabled = preview.candidateCount <= 3; byId("candidate-more").disabled = preview.candidateCount >= candidateWords.length;
   const panel = byId("candidate-panel"); panel.classList.toggle("horizontal", preview.layout === "horizontal"); panel.classList.toggle("full-width-highlight", state.design.full_width_highlight);
-  renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = `fcitx5-dynamic-themes render --config ~/Downloads/${safeName(state.name)}.json --reload`; window.lucide.createIcons();
+  renderPresets(); renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = `fcitx5-dynamic-themes render --config ~/Downloads/${safeName(state.name)}.json --reload`; window.lucide.createIcons();
 }
 
 function mergeImportedTheme(payload) {

@@ -20,6 +20,7 @@ DEFAULT_DESIGN = {
     "panel_radius": 12.0,
     "highlight_radius": 9.0,
     "panel_outline_width": 1.25,
+    "content_padding": 12.0,
     "panel_inner_opacity": 0.5,
     "highlight_inner_opacity": 0.24,
 }
@@ -27,6 +28,7 @@ DESIGN_LIMITS = {
     "panel_radius": (0.0, 20.0),
     "highlight_radius": (0.0, 20.0),
     "panel_outline_width": (0.0, 3.0),
+    "content_padding": (4.0, 24.0),
     "panel_inner_opacity": (0.0, 1.0),
     "highlight_inner_opacity": (0.0, 1.0),
 }
@@ -116,8 +118,11 @@ def _highlight_svg(colors: dict[str, str], variant: str, design: dict[str, float
 '''
 
 
-def _theme_conf(colors: dict[str, str], name: str, variant: str) -> str:
+def _theme_conf(
+    colors: dict[str, str], name: str, variant: str, design: dict[str, float]
+) -> str:
     compatibility = "native Wayland apps" if variant == "rounded" else "XWayland-compatible apps"
+    content_padding = _number(design["content_padding"])
     return f'''[Metadata]
 Name={name}
 Version=0.3.0
@@ -157,10 +162,10 @@ Top=10
 Bottom=10
 
 [InputPanel/ContentMargin]
-Left=9
-Right=9
-Top=7
-Bottom=7
+Left={content_padding}
+Right={content_padding}
+Top={content_padding}
+Bottom={content_padding}
 
 [InputPanel/TextMargin]
 Left=9
@@ -226,7 +231,7 @@ def render_theme(
     files = {
         "panel.svg": _panel_svg(colors, variant, design_values),
         "highlight.svg": _highlight_svg(colors, variant, design_values),
-        "theme.conf": _theme_conf(colors, name, variant),
+        "theme.conf": _theme_conf(colors, name, variant, design_values),
     }
     for filename, content in files.items():
         temporary = target / f".{filename}.tmp"

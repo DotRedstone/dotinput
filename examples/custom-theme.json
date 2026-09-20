@@ -6,6 +6,7 @@
     "panel_radius": 12,
     "highlight_radius": 9,
     "panel_outline_width": 1.25,
+    "content_padding": 12,
     "panel_inner_opacity": 0.5,
     "highlight_inner_opacity": 0.24
   },

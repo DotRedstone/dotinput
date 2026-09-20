@@ -19,6 +19,7 @@
         "panel_radius": { "type": "number", "minimum": 0, "maximum": 20 },
         "highlight_radius": { "type": "number", "minimum": 0, "maximum": 20 },
         "panel_outline_width": { "type": "number", "minimum": 0, "maximum": 3 },
+        "content_padding": { "type": "number", "minimum": 4, "maximum": 24 },
         "panel_inner_opacity": { "type": "number", "minimum": 0, "maximum": 1 },
         "highlight_inner_opacity": { "type": "number", "minimum": 0, "maximum": 1 }
       }

@@ -45,6 +45,8 @@ class RendererTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_design({"panel_radius": 21})
         with self.assertRaises(ValueError):
+            validate_design({"content_padding": 3})
+        with self.assertRaises(ValueError):
             validate_design({"unexpected": 1})
 
     def test_cli_renders_theme_studio_config(self):
@@ -59,7 +61,7 @@ class RendererTests(unittest.TestCase):
                         "mode": "dark",
                         "variant": "rounded",
                         "palette": PALETTE,
-                        "design": {"panel_radius": 6, "highlight_radius": 4},
+                        "design": {"panel_radius": 6, "highlight_radius": 4, "content_padding": 16},
                     }
                 ),
                 encoding="utf-8",
@@ -67,6 +69,7 @@ class RendererTests(unittest.TestCase):
             self.assertEqual(main(["render", "--config", str(config), "--target", str(target)]), 0)
             self.assertIn('rx="6"', (target / "panel.svg").read_text())
             self.assertIn('rx="4"', (target / "highlight.svg").read_text())
+            self.assertIn("[InputPanel/ContentMargin]\nLeft=16", (target / "theme.conf").read_text())
 
     def test_cli_rejects_unsafe_theme_config_name(self):
         with self.assertRaises(SystemExit):

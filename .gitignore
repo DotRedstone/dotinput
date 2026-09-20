@@ -3,3 +3,4 @@
 /result
 __pycache__/
 *.egg-info/
+packaging/arch/*.tar.gz

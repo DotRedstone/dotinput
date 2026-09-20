@@ -10,99 +10,60 @@
     <script src="app.js" defer></script>
   </head>
   <body>
-    <header class="app-header">
-      <a class="brand" href="https://github.com/DotRedstone/fcitx5-dynamic-themes">
-        <span class="brand-mark" aria-hidden="true">F</span>
-        <span>Fcitx5 Dynamic Themes</span>
-      </a>
-      <div class="header-actions">
-        <button id="reset" class="icon-button" type="button" title="Reset controls" aria-label="Reset controls">
-          <i data-lucide="rotate-ccw"></i>
-        </button>
-        <label class="icon-button" title="Import a theme JSON" aria-label="Import a theme JSON">
-          <i data-lucide="folder-open"></i>
-          <input id="import" type="file" accept="application/json" />
-        </label>
-        <a class="icon-button" href="https://github.com/DotRedstone/fcitx5-dynamic-themes" title="Open GitHub repository" aria-label="Open GitHub repository">
-          <i data-lucide="code-xml"></i>
-        </a>
+    <header class="top-app-bar">
+      <a class="brand" href="https://github.com/DotRedstone/fcitx5-dynamic-themes"><span class="brand-symbol"><i data-lucide="palette"></i></span><span>Fcitx5 Dynamic Themes</span></a>
+      <div class="top-actions">
+        <div class="language-switch" role="group" aria-label="Language"><button type="button" data-language="en">EN</button><button type="button" data-language="zh">中文</button></div>
+        <button id="reset" class="icon-button" type="button" title="Reset" aria-label="Reset"><i data-lucide="rotate-ccw"></i></button>
+        <label id="import-label" class="icon-button" title="Import theme JSON" aria-label="Import theme JSON"><i data-lucide="folder-open"></i><input id="import" type="file" accept="application/json" /></label>
+        <a id="repository-link" class="icon-button" href="https://github.com/DotRedstone/fcitx5-dynamic-themes" title="Open GitHub repository" aria-label="Open GitHub repository"><i data-lucide="code-xml"></i></a>
       </div>
     </header>
 
-    <main class="studio-shell">
-      <aside class="controls" aria-label="Theme controls">
-        <div class="section-heading">
-          <span>Theme</span>
-          <span id="variant-label" class="muted">Rounded</span>
-        </div>
-        <label class="field-label" for="theme-name">Name</label>
+    <main class="studio-layout">
+      <aside class="settings-panel surface-panel" aria-label="Theme settings">
+        <div class="panel-title"><span data-i18n="theme">Theme</span><span id="variant-label" class="state-label"></span></div>
+        <label class="field-label" for="theme-name" data-i18n="themeName">Theme name</label>
         <input id="theme-name" class="text-input" type="text" maxlength="64" spellcheck="false" />
-
-        <div class="field-label">Appearance</div>
-        <div class="segmented" role="group" aria-label="Color mode">
-          <button type="button" data-mode="light">Light</button>
-          <button type="button" data-mode="dark">Dark</button>
-        </div>
-        <div class="segmented" role="group" aria-label="Shape variant">
-          <button type="button" data-variant="rounded">Rounded</button>
-          <button type="button" data-variant="angular">Angular</button>
-        </div>
-
-        <div class="section-heading compact"><span>Geometry</span></div>
-        <div id="rounded-controls">
-          <label class="range-label" for="panel-radius">Panel radius <output id="panel-radius-value"></output></label>
-          <input id="panel-radius" type="range" min="0" max="20" step="1" />
-          <label class="range-label" for="highlight-radius">Highlight radius <output id="highlight-radius-value"></output></label>
-          <input id="highlight-radius" type="range" min="0" max="20" step="1" />
-          <label class="range-label" for="outline-width">Outline width <output id="outline-width-value"></output></label>
-          <input id="outline-width" type="range" min="0" max="3" step="0.05" />
-          <label class="range-label" for="panel-opacity">Panel inset <output id="panel-opacity-value"></output></label>
-          <input id="panel-opacity" type="range" min="0" max="1" step="0.02" />
-          <label class="range-label" for="highlight-opacity">Highlight inset <output id="highlight-opacity-value"></output></label>
-          <input id="highlight-opacity" type="range" min="0" max="1" step="0.02" />
-        </div>
-
-        <div class="section-heading compact"><span>Palette</span><span id="palette-mode" class="muted">Dark</span></div>
-        <div id="color-controls" class="color-controls"></div>
+        <section class="control-section">
+          <h2 data-i18n="appearance">Appearance</h2>
+          <span class="field-label" data-i18n="colorMode">Color mode</span>
+          <div class="segmented" role="group" aria-label="Color mode"><button type="button" data-mode="light" data-i18n="light">Light</button><button type="button" data-mode="dark" data-i18n="dark">Dark</button></div>
+          <span class="field-label" data-i18n="shape">Shape</span>
+          <div class="segmented" role="group" aria-label="Shape variant"><button type="button" data-variant="rounded" data-i18n="rounded">Rounded</button><button type="button" data-variant="angular" data-i18n="angular">Angular</button></div>
+        </section>
+        <section id="rounded-controls" class="control-section">
+          <h2 data-i18n="geometry">Geometry</h2>
+          <label class="range-label" for="panel-radius"><span data-i18n="panelRadius">Panel radius</span><output id="panel-radius-value"></output></label><input id="panel-radius" type="range" min="0" max="20" step="1" />
+          <label class="range-label" for="highlight-radius"><span data-i18n="highlightRadius">Highlight radius</span><output id="highlight-radius-value"></output></label><input id="highlight-radius" type="range" min="0" max="20" step="1" />
+          <label class="range-label" for="outline-width"><span data-i18n="outlineWidth">Outline width</span><output id="outline-width-value"></output></label><input id="outline-width" type="range" min="0" max="3" step="0.05" />
+          <label class="range-label" for="panel-opacity"><span data-i18n="panelInset">Panel inset</span><output id="panel-opacity-value"></output></label><input id="panel-opacity" type="range" min="0" max="1" step="0.02" />
+          <label class="range-label" for="highlight-opacity"><span data-i18n="highlightInset">Highlight inset</span><output id="highlight-opacity-value"></output></label><input id="highlight-opacity" type="range" min="0" max="1" step="0.02" />
+        </section>
+        <section class="control-section"><div class="section-line"><h2 data-i18n="palette">Palette</h2><span id="palette-mode" class="state-label"></span></div><div id="color-controls" class="color-controls"></div></section>
       </aside>
 
-      <section class="preview-area" aria-label="Live Fcitx5 preview">
-        <div class="preview-toolbar">
-          <span class="eyebrow">Live Preview</span>
-          <span id="preview-status" class="preview-status">Dark / Rounded</span>
-        </div>
-        <div id="preview-stage" class="preview-stage">
-          <div id="candidate-panel" class="candidate-panel">
-            <div class="composition-row">
-              <span class="composition">nihao</span>
-              <span class="mode-pill">English</span>
-            </div>
-            <div class="candidates">
-              <button class="candidate selected" type="button"><b>1</b><span>你好</span></button>
-              <button class="candidate" type="button"><b>2</b><span>你号</span></button>
-              <button class="candidate" type="button"><b>3</b><span>拟好</span></button>
-              <button class="candidate" type="button"><b>4</b><span>泥号</span></button>
-            </div>
-            <div class="page-row"><span>‹</span><span>1 / 5</span><span>›</span></div>
+      <section class="preview-panel" aria-label="Fcitx5 live preview">
+        <div class="preview-heading"><div><span class="overline" data-i18n="livePreview">Live preview</span><h1 data-i18n="candidateWindow">Candidate window</h1></div><span id="preview-status" class="status-chip"></span></div>
+        <div class="preview-controls surface-panel">
+          <div class="preview-control-title"><span data-i18n="preview">Preview</span><span class="preview-only" data-i18n="previewOnly">Preview only</span></div>
+          <div class="preview-control-grid">
+            <div><span class="field-label" data-i18n="candidateLayout">Candidate layout</span><div class="segmented" role="group" aria-label="Candidate layout"><button type="button" data-preview-layout="horizontal" data-i18n="horizontal">Horizontal</button><button type="button" data-preview-layout="vertical" data-i18n="vertical">Vertical</button></div></div>
+            <div><span class="field-label" data-i18n="candidateCount">Candidate count</span><div class="stepper" role="group" aria-label="Candidate count"><button id="candidate-less" class="icon-button compact" type="button" title="Fewer candidates" aria-label="Fewer candidates"><i data-lucide="minus"></i></button><output id="candidate-count" aria-live="polite"></output><button id="candidate-more" class="icon-button compact" type="button" title="More candidates" aria-label="More candidates"><i data-lucide="plus"></i></button></div></div>
           </div>
-          <div class="cursor-dot" aria-hidden="true"></div>
+        </div>
+        <div class="preview-stage">
+          <div class="editor-echo"><span class="editor-dot"></span><span class="editor-line wide"></span><span class="editor-line"></span></div>
+          <div class="input-anchor"><span class="composition">nihao</span><span class="caret" aria-hidden="true"></span></div>
+          <div id="candidate-panel" class="candidate-panel"><div class="candidate-topline"><span class="input-state">拼音</span><span class="page-indicator">1 / 5</span></div><div id="candidates" class="candidates"></div><div class="candidate-footer"><span data-i18n="selectHint">Select a candidate</span><span>↵</span></div></div>
         </div>
       </section>
 
-      <aside class="export-panel" aria-label="Export theme configuration">
-        <div class="section-heading">
-          <span>Theme JSON</span>
-          <button id="copy-config" class="icon-button small" type="button" title="Copy theme JSON" aria-label="Copy theme JSON">
-            <i data-lucide="copy"></i>
-          </button>
-        </div>
+      <aside class="export-panel surface-panel" aria-label="Theme export">
+        <div class="panel-title"><span data-i18n="themeJson">Theme JSON</span><button id="copy-config" class="icon-button compact" type="button" title="Copy JSON" aria-label="Copy JSON"><i data-lucide="copy"></i></button></div>
         <pre id="json-output" class="json-output"></pre>
-        <button id="download" class="command-button" type="button">
-          <i data-lucide="download"></i>
-          <span>Download JSON</span>
-        </button>
-        <div class="section-heading compact"><span>Install</span><button id="copy-command" class="icon-button small" type="button" title="Copy install command" aria-label="Copy install command"><i data-lucide="copy"></i></button></div>
-        <code id="install-command" class="install-command"></code>
+        <button id="download" class="filled-button" type="button"><i data-lucide="download"></i><span data-i18n="downloadJson">Download JSON</span></button>
+        <section class="install-section"><div class="panel-title"><span data-i18n="install">Install</span><button id="copy-command" class="icon-button compact" type="button" title="Copy command" aria-label="Copy command"><i data-lucide="copy"></i></button></div><code id="install-command" class="install-command"></code></section>
       </aside>
     </main>
   </body>

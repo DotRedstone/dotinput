@@ -69,6 +69,10 @@ test palette.
 adjust semantic colors, rounded geometry, and the XWayland-safe angular
 variant with a live candidate-window preview. It exports one portable theme
 configuration matching [core/theme.schema.json](core/theme.schema.json).
+The Studio has English and Simplified Chinese interfaces. Candidate orientation
+and candidate count are preview-only controls: they never enter the exported
+JSON and must be configured in Fcitx5 itself when you want to change real input
+method behavior.
 
 Render a downloaded configuration directly. The output is a regular writable
 Fcitx5 Classic UI theme and `--reload` updates only Classic UI:
@@ -206,6 +210,8 @@ fcitx5-dynamic-themes render \
 打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，可直接调节
 语义色、圆角几何和适用于 XWayland 的切角方案，并实时预览候选窗。它会导出一个符合
 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
+网站提供简体中文和英文界面。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
+导出的 JSON；实际输入法的候选窗行为仍需在 Fcitx5 中单独配置。
 
 下载配置后可直接生成主题；产物是用户目录中普通、可写的 Fcitx5 Classic UI 主题，
 `--reload` 只会热加载 Classic UI：

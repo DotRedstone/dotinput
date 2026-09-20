@@ -65,7 +65,7 @@ test palette.
 
 ### Theme Studio
 
-[Open Theme Studio](https://dotredstone.github.io/fcitx5-dynamic-themes/) to
+[Open Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) to
 adjust semantic colors, rounded geometry, and the XWayland-safe angular
 variant with a live candidate-window preview. It exports one portable theme
 configuration matching [core/theme.schema.json](core/theme.schema.json).
@@ -203,7 +203,7 @@ fcitx5-dynamic-themes render \
 
 ### Theme Studio 可视化编辑器
 
-打开 [Theme Studio](https://dotredstone.github.io/fcitx5-dynamic-themes/)，可直接调节
+打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，可直接调节
 语义色、圆角几何和适用于 XWayland 的切角方案，并实时预览候选窗。它会导出一个符合
 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
 

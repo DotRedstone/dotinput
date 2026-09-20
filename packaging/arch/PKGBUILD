@@ -1,6 +1,6 @@
 # Maintainer: DotRedstone
 pkgname=fcitx5-dynamic-themes
-pkgver=0.2.1
+pkgver=0.3.0
 pkgrel=1
 pkgdesc='Provider-agnostic dynamic color themes for Fcitx5 Classic UI'
 arch=('any')
@@ -10,7 +10,7 @@ depends=('fcitx5' 'python')
 optdepends=('noctalia: Noctalia dynamic color provider')
 makedepends=('python-build' 'python-installer' 'python-setuptools')
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('3302aca971a327d5480d8141731af2ab5704952441c66bec58a19974f8477594')
+sha256sums=('ff57308b5971484d0c480a190a3d1bbd9dfa998a811efec667ff971565ff7cf1')
 
 build() {
   cd "${pkgname}-${pkgver}"

@@ -105,7 +105,7 @@ activation, then run `noctalia msg templates-apply` after login.
 
 ### Arch / AUR
 
-The PKGBUILD is pinned to the immutable `v0.2.0` source tarball and has a real
+The PKGBUILD is pinned to the immutable `v0.2.1` source tarball and has a real
 SHA-256 checksum. Build and install it locally on Arch Linux:
 
 ```bash
@@ -224,7 +224,7 @@ Home Manager 同时安装软件包并启用声明式 Noctalia 提供方：
 
 ### Arch / AUR
 
-PKGBUILD 已固定到不可变的 `v0.2.0` 源码 tarball，并写入真实 SHA-256 校验和。
+PKGBUILD 已固定到不可变的 `v0.2.1` 源码 tarball，并写入真实 SHA-256 校验和。
 在 Arch Linux 上可直接本地构建并安装：
 
 ```bash

@@ -1,7 +1,7 @@
 # Arch / AUR release files
 
 This directory contains a reproducible Arch package recipe for the immutable
-`v0.2.0` GitHub source tarball. Its SHA-256 checksum is verified by makepkg.
+`v0.2.1` GitHub source tarball. Its SHA-256 checksum is verified by makepkg.
 Use `makepkg -si` here to build and install it locally.
 
 The intended AUR package name is `fcitx5-dynamic-themes`. Publishing still requires an

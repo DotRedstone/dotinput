@@ -48,11 +48,11 @@ input_path = "$project_root/providers/noctalia/templates/rounded-light/theme.con
 output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/theme.conf"
 
 [theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_light_panel]
-input_path = "$project_root/providers/noctalia/templates/rounded-light/panel.svg.template"
+input_path = "$project_root/providers/noctalia/templates/rounded-light/panel-md3.svg.template"
 output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/panel.svg"
 
 [theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_light_highlight]
-input_path = "$project_root/providers/noctalia/templates/rounded-light/highlight.svg.template"
+input_path = "$project_root/providers/noctalia/templates/rounded-light/highlight-md3.svg.template"
 output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/highlight.svg"
 
 [theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_dark_theme]
@@ -60,11 +60,11 @@ input_path = "$project_root/providers/noctalia/templates/rounded-dark/theme.conf
 output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-dark/theme.conf"
 
 [theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_dark_panel]
-input_path = "$project_root/providers/noctalia/templates/rounded-dark/panel.svg.template"
+input_path = "$project_root/providers/noctalia/templates/rounded-dark/panel-md3.svg.template"
 output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-dark/panel.svg"
 
 [theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_dark_highlight]
-input_path = "$project_root/providers/noctalia/templates/rounded-dark/highlight.svg.template"
+input_path = "$project_root/providers/noctalia/templates/rounded-dark/highlight-md3.svg.template"
 output_path = "$HOME/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-dark/highlight.svg"
 
 [theme.templates.user.fcitx5_dynamic_themes_noctalia_angular_light_theme]

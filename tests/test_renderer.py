@@ -29,6 +29,13 @@ class RendererTests(unittest.TestCase):
             self.assertIn("L56 12", (target / "panel.svg").read_text())
             self.assertIn("#D0BCFF", (target / "highlight.svg").read_text())
 
+    def test_renderer_uses_compact_rounded_geometry(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "theme"
+            render_theme(validate_palette(PALETTE, "dark"), "rounded", target, "test-theme")
+            self.assertIn('rx="12"', (target / "panel.svg").read_text())
+            self.assertIn('rx="9"', (target / "highlight.svg").read_text())
+
     def test_palette_requires_semantic_roles(self):
         with self.assertRaises(ValueError):
             validate_palette({"dark": {}}, "dark")

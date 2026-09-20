@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="30" height="30" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <path d="M20 7H40C48 7 53 12 53 20V40C53 48 48 53 40 53H20C12 53 7 48 7 40V20C7 12 12 7 20 7Z" fill="{{colors.primary.light.hex}}"/>
-  <path d="M20 10H40C46.2 10 50 13.8 50 20V40C50 46.2 46.2 50 40 50H20C13.8 50 10 46.2 10 40V20C10 13.8 13.8 10 20 10Z" fill="none" stroke="{{colors.on_primary.light.hex}}" stroke-width="1" stroke-opacity="0.22"/>
-</svg>

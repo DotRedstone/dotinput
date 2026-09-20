@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="30" height="30" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <path d="M21 5H39C48.4 5 55 11.6 55 21V39C55 48.4 48.4 55 39 55H21C11.6 55 5 48.4 5 39V21C5 11.6 11.6 5 21 5Z" fill="{{colors.surface_container_low.light.hex}}" stroke="{{colors.outline_variant.light.hex}}" stroke-width="1.4"/>
-  <path d="M21 8H39C46.5 8 52 13.5 52 21V39C52 46.5 46.5 52 39 52H21C13.5 52 8 46.5 8 39V21C8 13.5 13.5 8 21 8Z" fill="none" stroke="{{colors.outline_variant.light.hex}}" stroke-width="0.8" stroke-opacity="0.48"/>
-</svg>

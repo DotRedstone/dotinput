@@ -7,7 +7,7 @@
     <title>Fcitx5 Dynamic Themes Studio</title>
     <link rel="stylesheet" href="styles.css?v=fcitx-layout-v3" />
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <script src="app.js?v=fcitx-layout-v3" defer></script>
+    <script src="app.js?v=fcitx-layout-v4" defer></script>
   </head>
   <body>
     <header class="top-app-bar">
@@ -22,7 +22,7 @@
 
     <main class="studio-layout">
       <aside class="settings-panel surface-panel" aria-label="Theme settings">
-        <div class="panel-title"><span data-i18n="theme">Theme</span><span id="variant-label" class="state-label"></span></div>
+        <div class="panel-title"><span data-i18n="theme">Theme</span></div>
         <label class="field-label" for="theme-name" data-i18n="themeName">Theme name</label>
         <input id="theme-name" class="text-input" type="text" maxlength="64" spellcheck="false" />
         <button id="reset-theme" class="outlined-button" type="button"><i data-lucide="rotate-ccw"></i><span data-i18n="restoreDefaults">Restore theme defaults</span></button>
@@ -30,8 +30,6 @@
           <h2 data-i18n="appearance">Appearance</h2>
           <span class="field-label" data-i18n="colorMode">Color mode</span>
           <div class="segmented" role="group" aria-label="Color mode"><button type="button" data-mode="light" data-i18n="light">Light</button><button type="button" data-mode="dark" data-i18n="dark">Dark</button></div>
-          <span class="field-label" data-i18n="shape">Shape</span>
-          <div class="segmented" role="group" aria-label="Shape variant"><button type="button" data-variant="rounded" data-i18n="rounded">Rounded</button><button type="button" data-variant="angular" data-i18n="angular">Angular</button></div>
         </section>
         <section id="rounded-controls" class="control-section">
           <h2 data-i18n="geometry">Geometry</h2>

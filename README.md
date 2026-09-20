@@ -21,11 +21,6 @@ fully integrated provider, not a project-wide requirement.
 | --- | --- | --- |
 | `fcitx5-dynamic-rounded-light` | Native Wayland, light mode | Soft-square shell and inset focus ring |
 | `fcitx5-dynamic-rounded-dark` | Native Wayland, dark mode | Soft-square shell and inset focus ring |
-| `fcitx5-dynamic-angular-light` | XWayland, light mode | Cut corners and layered focus frame |
-| `fcitx5-dynamic-angular-dark` | XWayland, dark mode | Cut corners and layered focus frame |
-
-Angular variants deliberately avoid transparent rounded corners, which makes
-them a safer choice for compatibility-sensitive XWayland clients.
 
 ### Install the Noctalia provider
 
@@ -90,6 +85,15 @@ fcitx5-dynamic-themes render \
 
 The Studio has no account, backend, or telemetry. Its source is static in
 [`web/`](web/), so it can also be opened locally or hosted anywhere.
+
+### Custom SVG assets
+
+The Studio intentionally generates one rounded theme family. Advanced theme
+authors can replace `panel.svg` and `highlight.svg`, but an SVG alone is not a
+complete Fcitx5 theme: `theme.conf` supplies the image slice margins, content
+and text margins, colors, and highlight behavior that make those assets render
+correctly. Use the generated rounded theme as the reference implementation and
+keep each SVG at `30x30` with a `60x60` viewBox when following its geometry.
 
 ### Nix / Home Manager
 
@@ -173,10 +177,6 @@ nix build .# --no-link
 | --- | --- | --- |
 | `fcitx5-dynamic-rounded-light` | 原生 Wayland、浅色模式 | 柔和圆角外框与内嵌焦点环 |
 | `fcitx5-dynamic-rounded-dark` | 原生 Wayland、深色模式 | 柔和圆角外框与内嵌焦点环 |
-| `fcitx5-dynamic-angular-light` | XWayland、浅色模式 | 切角外框与分层焦点框 |
-| `fcitx5-dynamic-angular-dark` | XWayland、深色模式 | 切角外框与分层焦点框 |
-
-`angular` 主题刻意不使用透明圆角，在兼容性敏感的 XWayland 客户端中更稳妥。
 
 ### 使用 Noctalia 提供方
 
@@ -231,6 +231,13 @@ fcitx5-dynamic-themes render \
 
 Theme Studio 没有账号、后端或遥测，源码就是仓库中的 [`web/`](web/)，因此也能离线打开
 或部署到任何静态站点服务。
+
+### 自定义 SVG 素材
+
+工作室刻意只生成一套圆角主题。需要深度定制的用户可以替换 `panel.svg` 与
+`highlight.svg`，但 SVG 本身不是完整的 Fcitx5 主题：`theme.conf` 还要提供图片切片边距、
+内容和文字边距、颜色与高亮行为，素材才能被正确拉伸和绘制。可把生成的圆角主题当作参考实现；
+若沿用本项目的几何规则，请保持 SVG 为 `30x30`、`viewBox` 为 `60x60`。
 
 ### Nix / Home Manager
 

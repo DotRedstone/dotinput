@@ -117,21 +117,19 @@ function renderCandidates() {
 function render() {
   setPreviewVariables(); applyLanguage(); byId("theme-name").value = state.name;
   document.querySelectorAll("[data-mode]").forEach((button) => button.classList.toggle("active", button.dataset.mode === state.mode));
-  document.querySelectorAll("[data-variant]").forEach((button) => button.classList.toggle("active", button.dataset.variant === state.variant));
   document.querySelectorAll("[data-preview-layout]").forEach((button) => button.classList.toggle("active", button.dataset.previewLayout === preview.layout));
-  const mode = t(state.mode); const variant = t(state.variant); byId("variant-label").textContent = variant; byId("palette-mode").textContent = mode; byId("preview-status").textContent = t("status")(mode, variant);
-  byId("rounded-controls").hidden = state.variant !== "rounded";
+  const mode = t(state.mode); byId("palette-mode").textContent = mode; byId("preview-status").textContent = mode;
   Object.entries(designControls).forEach(([id, [key, output]]) => { byId(id).value = state.design[key]; byId(output).value = displayValue(id, state.design[key]); });
   byId("full-width-highlight").checked = state.design.full_width_highlight;
   byId("candidate-count").value = preview.candidateCount; byId("candidate-less").disabled = preview.candidateCount <= 3; byId("candidate-more").disabled = preview.candidateCount >= candidateWords.length;
-  const panel = byId("candidate-panel"); panel.classList.toggle("angular", state.variant === "angular"); panel.classList.toggle("horizontal", preview.layout === "horizontal"); panel.classList.toggle("full-width-highlight", state.design.full_width_highlight);
+  const panel = byId("candidate-panel"); panel.classList.toggle("horizontal", preview.layout === "horizontal"); panel.classList.toggle("full-width-highlight", state.design.full_width_highlight);
   renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = `fcitx5-dynamic-themes render --config ~/Downloads/${safeName(state.name)}.json --reload`; window.lucide.createIcons();
 }
 
 function mergeImportedTheme(payload) {
   if (!payload || typeof payload !== "object" || !payload.palette || !payload.palette.light || !payload.palette.dark) throw new Error("Theme JSON needs light and dark palettes.");
   for (const mode of ["light", "dark"]) for (const role of colorRoles) if (!/^#[0-9a-fA-F]{6}$/.test(payload.palette[mode][role] || "")) throw new Error(`Invalid ${mode}.${role} color.`);
-  state = structuredClone(defaults); state.name = typeof payload.name === "string" ? payload.name.slice(0, 64) : state.name; state.mode = payload.mode === "light" ? "light" : "dark"; state.variant = payload.variant === "angular" ? "angular" : "rounded"; state.palette = payload.palette;
+  state = structuredClone(defaults); state.name = typeof payload.name === "string" ? payload.name.slice(0, 64) : state.name; state.mode = payload.mode === "light" ? "light" : "dark"; state.palette = payload.palette;
   if (payload.design && typeof payload.design === "object") for (const [key, value] of Object.entries(payload.design)) {
     if (key === "full_width_highlight" && typeof value === "boolean") state.design[key] = value;
     else if (key in state.design && typeof value === "number" && Number.isFinite(value)) state.design[key] = value;
@@ -145,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
   byId("theme-name").addEventListener("input", (event) => { state.name = event.target.value; render(); });
   document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", () => { language = button.dataset.language; render(); }));
   document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => { state.mode = button.dataset.mode; render(); }));
-  document.querySelectorAll("[data-variant]").forEach((button) => button.addEventListener("click", () => { state.variant = button.dataset.variant; render(); }));
   document.querySelectorAll("[data-preview-layout]").forEach((button) => button.addEventListener("click", () => { preview.layout = button.dataset.previewLayout; render(); }));
   Object.entries(designControls).forEach(([id, [key]]) => byId(id).addEventListener("input", (event) => { state.design[key] = Number(event.target.value); render(); }));
   byId("full-width-highlight").addEventListener("change", (event) => { state.design.full_width_highlight = event.target.checked; render(); });

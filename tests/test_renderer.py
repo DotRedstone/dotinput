@@ -86,7 +86,7 @@ class RendererTests(unittest.TestCase):
             self.assertIn('rx="4"', (target / "highlight.svg").read_text())
             self.assertIn("[InputPanel/ContentMargin]\nLeft=16", (target / "theme.conf").read_text())
             self.assertIn("FullWidthHighlight=False", (target / "theme.conf").read_text())
-            self.assertIn("CandidateLabelTextSizeFactor=0.8", (target / "theme.conf").read_text())
+            self.assertNotIn("CandidateLabelTextSizeFactor", (target / "theme.conf").read_text())
             self.assertIn("[InputPanel/TextMargin]\nLeft=8", (target / "theme.conf").read_text())
             self.assertIn("Top=5\nBottom=6", (target / "theme.conf").read_text())
 

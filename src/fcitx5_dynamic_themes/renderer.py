@@ -30,7 +30,6 @@ DEFAULT_DESIGN = {
     "highlight_slice_margin_horizontal": 15.0,
     "highlight_slice_margin_vertical": 10.0,
     "full_width_highlight": True,
-    "candidate_label_scale": 1.0,
     "candidate_comment_scale": 1.0,
 }
 DESIGN_LIMITS = {
@@ -46,7 +45,6 @@ DESIGN_LIMITS = {
     "panel_slice_margin": (4.0, 15.0),
     "highlight_slice_margin_horizontal": (4.0, 15.0),
     "highlight_slice_margin_vertical": (4.0, 15.0),
-    "candidate_label_scale": (0.5, 1.5),
     "candidate_comment_scale": (0.5, 1.5),
 }
 
@@ -77,6 +75,8 @@ def validate_design(design: object | None) -> dict[str, float | bool]:
 
     checked: dict[str, float | bool] = DEFAULT_DESIGN.copy()
     for name, value in design.items():
+        if name == "candidate_label_scale":
+            continue
         if name not in DESIGN_LIMITS:
             if name == "full_width_highlight":
                 if not isinstance(value, bool):
@@ -152,7 +152,6 @@ def _theme_conf(
     highlight_slice_margin_horizontal = _number(float(design["highlight_slice_margin_horizontal"]))
     highlight_slice_margin_vertical = _number(float(design["highlight_slice_margin_vertical"]))
     full_width_highlight = "True" if design["full_width_highlight"] else "False"
-    candidate_label_scale = _number(float(design["candidate_label_scale"]))
     candidate_comment_scale = _number(float(design["candidate_comment_scale"]))
     return f'''[Metadata]
 Name={name}
@@ -167,7 +166,6 @@ HighlightColor={colors['on_primary']}
 HighlightBackgroundColor={colors['primary']}
 EnableBlur=False
 FullWidthHighlight={full_width_highlight}
-CandidateLabelTextSizeFactor={candidate_label_scale}
 CandidateCommentTextSizeFactor={candidate_comment_scale}
 
 [InputPanel/Background]

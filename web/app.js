@@ -23,7 +23,7 @@ const defaults = {
     panel_radius: 12, highlight_radius: 9, panel_outline_width: 1.25, content_padding: 12,
     text_margin_horizontal: 9, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.5,
     highlight_inner_opacity: 0.24, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10,
-    full_width_highlight: true, candidate_label_scale: 1, candidate_comment_scale: 1,
+    full_width_highlight: true, candidate_comment_scale: 1,
   },
 };
 
@@ -43,7 +43,6 @@ const designControls = {
   "panel-slice-margin": ["panel_slice_margin", "panel-slice-margin-value"],
   "highlight-slice-margin-horizontal": ["highlight_slice_margin_horizontal", "highlight-slice-margin-horizontal-value"],
   "highlight-slice-margin-vertical": ["highlight_slice_margin_vertical", "highlight-slice-margin-vertical-value"],
-  "candidate-label-scale": ["candidate_label_scale", "candidate-label-scale-value"],
   "candidate-comment-scale": ["candidate_comment_scale", "candidate-comment-scale-value"],
 };
 // SVG coordinates use a 60px viewBox in a 30px asset; Fcitx margins are raw pixels.
@@ -78,7 +77,6 @@ function setPreviewVariables() {
   root.setProperty("--text-margin-bottom", `${state.design.text_margin_bottom}px`);
   root.setProperty("--panel-inset-opacity", state.design.panel_inner_opacity);
   root.setProperty("--highlight-inset-opacity", state.design.highlight_inner_opacity);
-  root.setProperty("--candidate-label-scale", state.design.candidate_label_scale);
   root.setProperty("--candidate-comment-scale", state.design.candidate_comment_scale);
   root.setProperty("--preview-stage-height", `${preview.layout === "vertical" ? Math.max(430, 170 + preview.candidateCount * 38) : 420}px`);
 }

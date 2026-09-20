@@ -29,7 +29,6 @@
         "highlight_slice_margin_horizontal": { "type": "number", "minimum": 4, "maximum": 15 },
         "highlight_slice_margin_vertical": { "type": "number", "minimum": 4, "maximum": 15 },
         "full_width_highlight": { "type": "boolean" },
-        "candidate_label_scale": { "type": "number", "minimum": 0.5, "maximum": 1.5 },
         "candidate_comment_scale": { "type": "number", "minimum": 0.5, "maximum": 1.5 }
       }
     }

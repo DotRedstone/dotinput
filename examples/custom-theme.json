@@ -16,7 +16,6 @@
     "highlight_slice_margin_horizontal": 13,
     "highlight_slice_margin_vertical": 13,
     "full_width_highlight": true,
-    "candidate_label_scale": 1,
     "candidate_comment_scale": 1
   },
   "palette": {

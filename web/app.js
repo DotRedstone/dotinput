@@ -46,7 +46,8 @@ const designControls = {
   "candidate-label-scale": ["candidate_label_scale", "candidate-label-scale-value"],
   "candidate-comment-scale": ["candidate_comment_scale", "candidate-comment-scale-value"],
 };
-const scaledControls = new Set(["panel-radius", "highlight-radius", "outline-width", "content-padding", "text-margin-horizontal", "text-margin-vertical", "text-margin-bottom"]);
+// SVG coordinates use a 60px viewBox in a 30px asset; Fcitx margins are raw pixels.
+const scaledControls = new Set(["panel-radius", "highlight-radius", "outline-width"]);
 const byId = (id) => document.getElementById(id);
 const t = (key) => copy[language][key];
 const asNumber = (value) => Number.isInteger(value) ? String(value) : String(Number(value.toFixed(2)));
@@ -71,10 +72,10 @@ function setPreviewVariables() {
   root.setProperty("--panel-radius", `${state.design.panel_radius * previewScale}px`);
   root.setProperty("--highlight-radius", `${state.design.highlight_radius * previewScale}px`);
   root.setProperty("--panel-outline-width", `${state.design.panel_outline_width * previewScale}px`);
-  root.setProperty("--content-padding", `${state.design.content_padding * previewScale}px`);
-  root.setProperty("--text-margin-horizontal", `${state.design.text_margin_horizontal * previewScale}px`);
-  root.setProperty("--text-margin-vertical", `${state.design.text_margin_vertical * previewScale}px`);
-  root.setProperty("--text-margin-bottom", `${state.design.text_margin_bottom * previewScale}px`);
+  root.setProperty("--content-padding", `${state.design.content_padding}px`);
+  root.setProperty("--text-margin-horizontal", `${state.design.text_margin_horizontal}px`);
+  root.setProperty("--text-margin-vertical", `${state.design.text_margin_vertical}px`);
+  root.setProperty("--text-margin-bottom", `${state.design.text_margin_bottom}px`);
   root.setProperty("--panel-inset-opacity", state.design.panel_inner_opacity);
   root.setProperty("--highlight-inset-opacity", state.design.highlight_inner_opacity);
   root.setProperty("--candidate-label-scale", state.design.candidate_label_scale);

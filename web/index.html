@@ -7,7 +7,7 @@
     <title>Fcitx5 Dynamic Themes Studio</title>
     <link rel="stylesheet" href="styles.css?v=fcitx-layout-v3" />
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <script src="app.js?v=fcitx-layout-v4" defer></script>
+    <script src="app.js?v=fcitx-layout-v5" defer></script>
   </head>
   <body>
     <header class="top-app-bar">
@@ -39,8 +39,7 @@
           <label class="range-label" for="content-padding"><span data-i18n="contentPadding">Candidate inset</span><output id="content-padding-value"></output></label><input id="content-padding" type="range" min="0" max="48" step="1" />
           <label class="range-label" for="text-margin-horizontal"><span data-i18n="textMarginHorizontal">Text margin, horizontal</span><output id="text-margin-horizontal-value"></output></label><input id="text-margin-horizontal" type="range" min="0" max="24" step="1" />
           <label class="range-label" for="text-margin-vertical"><span data-i18n="textMarginVertical">Text margin, vertical</span><output id="text-margin-vertical-value"></output></label><input id="text-margin-vertical" type="range" min="0" max="24" step="1" />
-          <details class="advanced-controls">
-            <summary data-i18n="advanced">Advanced Fcitx5 parameters</summary>
+          <div class="advanced-controls">
             <div class="advanced-grid">
               <label class="range-label" for="panel-opacity"><span data-i18n="panelInset">Panel inset</span><output id="panel-opacity-value"></output></label><input id="panel-opacity" type="range" min="0" max="1" step="0.02" />
               <label class="range-label" for="highlight-opacity"><span data-i18n="highlightInset">Highlight inset</span><output id="highlight-opacity-value"></output></label><input id="highlight-opacity" type="range" min="0" max="1" step="0.02" />
@@ -52,7 +51,7 @@
               <label class="range-label" for="text-margin-bottom"><span data-i18n="textMarginBottom">Text margin, bottom</span><output id="text-margin-bottom-value"></output></label><input id="text-margin-bottom" type="range" min="0" max="24" step="1" />
               <label class="toggle-row" for="full-width-highlight"><span data-i18n="fullWidthHighlight">Fill row when vertical</span><input id="full-width-highlight" type="checkbox" /></label>
             </div>
-          </details>
+          </div>
         </section>
         <section class="control-section"><div class="section-line"><h2 data-i18n="palette">Palette</h2><span id="palette-mode" class="state-label"></span></div><div id="color-controls" class="color-controls"></div></section>
       </aside>

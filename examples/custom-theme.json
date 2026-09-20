@@ -1,0 +1,34 @@
+{
+  "name": "violet-studio",
+  "mode": "dark",
+  "variant": "rounded",
+  "design": {
+    "panel_radius": 12,
+    "highlight_radius": 9,
+    "panel_outline_width": 1.25,
+    "panel_inner_opacity": 0.5,
+    "highlight_inner_opacity": 0.24
+  },
+  "palette": {
+    "light": {
+      "surface": "#FFFBFE",
+      "surface_container_low": "#F7F2FA",
+      "surface_container_high": "#EDE7F2",
+      "on_surface": "#1D1B20",
+      "primary": "#6750A4",
+      "on_primary": "#FFFFFF",
+      "outline": "#79747E",
+      "outline_variant": "#CAC4D0"
+    },
+    "dark": {
+      "surface": "#141218",
+      "surface_container_low": "#1D1B20",
+      "surface_container_high": "#2B2930",
+      "on_surface": "#E6E1E5",
+      "primary": "#D0BCFF",
+      "on_primary": "#381E72",
+      "outline": "#938F99",
+      "outline_variant": "#49454F"
+    }
+  }
+}

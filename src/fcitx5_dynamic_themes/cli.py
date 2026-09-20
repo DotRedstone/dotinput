@@ -7,9 +7,11 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
-import sys
+import re
 
-from .renderer import render_theme, validate_palette
+from .renderer import render_theme, validate_design, validate_palette
+
+THEME_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 
 
 def _default_target(name: str) -> Path:
@@ -39,7 +41,7 @@ def _reload_classicui() -> None:
     )
 
 
-def _read_palette(path: Path) -> dict[str, object]:
+def _read_json(path: Path) -> dict[str, object]:
     try:
         decoded = json.loads(path.read_text(encoding="utf-8"))
     except OSError as error:
@@ -51,14 +53,31 @@ def _read_palette(path: Path) -> dict[str, object]:
     return decoded
 
 
+def _theme_config(payload: dict[str, object]) -> tuple[dict[str, object], dict[str, float], str | None, str | None, str | None]:
+    palette = payload.get("palette")
+    if not isinstance(palette, dict):
+        raise ValueError("theme config must contain a palette object")
+    name = payload.get("name")
+    mode = payload.get("mode")
+    variant = payload.get("variant")
+    for field, value in (("name", name), ("mode", mode), ("variant", variant)):
+        if value is not None and not isinstance(value, str):
+            raise ValueError(f"theme config {field} must be a string")
+    if name is not None and not THEME_NAME.fullmatch(name):
+        raise ValueError("theme config name must use letters, digits, dots, underscores, or hyphens")
+    return palette, validate_design(payload.get("design")), name, mode, variant
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Render dynamic Fcitx5 Classic UI themes.")
     commands = parser.add_subparsers(dest="command", required=True)
 
     render = commands.add_parser("render", help="render one theme from a semantic palette JSON")
-    render.add_argument("--palette", type=Path, required=True)
-    render.add_argument("--mode", choices=("light", "dark"), required=True)
-    render.add_argument("--variant", choices=("rounded", "angular"), required=True)
+    source = render.add_mutually_exclusive_group(required=True)
+    source.add_argument("--palette", type=Path)
+    source.add_argument("--config", type=Path, help="theme config exported by Theme Studio")
+    render.add_argument("--mode", choices=("light", "dark"))
+    render.add_argument("--variant", choices=("rounded", "angular"))
     render.add_argument("--name")
     render.add_argument("--target", type=Path)
     render.add_argument("--reload", action="store_true")
@@ -69,14 +88,30 @@ def main(argv: list[str] | None = None) -> int:
 
     args = parser.parse_args(argv)
     try:
-        palette = _read_palette(args.palette)
-        colors = validate_palette(palette, args.mode)
         if args.command == "validate":
+            palette = _read_json(args.palette)
+            colors = validate_palette(palette, args.mode)
             print(f"{args.mode} palette is valid")
             return 0
-        name = args.name or f"fcitx5-dynamic-{args.variant}-{args.mode}"
+
+        if args.config:
+            palette, design, config_name, config_mode, config_variant = _theme_config(_read_json(args.config))
+        else:
+            palette = _read_json(args.palette)
+            design = validate_design(None)
+            config_name = config_mode = config_variant = None
+        mode = args.mode or config_mode
+        variant = args.variant or config_variant
+        if mode not in {"light", "dark"}:
+            raise ValueError("render requires --mode or a valid theme config mode")
+        if variant not in {"rounded", "angular"}:
+            raise ValueError("render requires --variant or a valid theme config variant")
+        colors = validate_palette(palette, mode)
+        name = args.name or config_name or f"fcitx5-dynamic-{variant}-{mode}"
+        if not THEME_NAME.fullmatch(name):
+            raise ValueError("theme name must use letters, digits, dots, underscores, or hyphens")
         target = args.target or _default_target(name)
-        render_theme(colors, args.variant, target, name)
+        render_theme(colors, variant, target, name, design)
         if args.reload:
             _reload_classicui()
         print(target)

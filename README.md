@@ -63,6 +63,24 @@ command after a palette update. See [docs.md](docs.md) for the provider
 contract and [examples/palette.json](examples/palette.json) for a complete
 test palette.
 
+### Theme Studio
+
+[Open Theme Studio](https://dotredstone.github.io/fcitx5-dynamic-themes/) to
+adjust semantic colors, rounded geometry, and the XWayland-safe angular
+variant with a live candidate-window preview. It exports one portable theme
+configuration matching [core/theme.schema.json](core/theme.schema.json).
+
+Render a downloaded configuration directly. The output is a regular writable
+Fcitx5 Classic UI theme and `--reload` updates only Classic UI:
+
+```bash
+fcitx5-dynamic-themes render \
+  --config ~/Downloads/my-fcitx-theme.json --reload
+```
+
+The Studio has no account, backend, or telemetry. Its source is static in
+[`web/`](web/), so it can also be opened locally or hosted anywhere.
+
 ### Nix / Home Manager
 
 Install the command-line renderer and Noctalia setup helper into a profile:
@@ -105,7 +123,7 @@ activation, then run `noctalia msg templates-apply` after login.
 
 ### Arch / AUR
 
-The PKGBUILD is pinned to the immutable `v0.2.1` source tarball and has a real
+The PKGBUILD is pinned to the immutable `v0.3.0` source tarball and has a real
 SHA-256 checksum. Build and install it locally on Arch Linux:
 
 ```bash
@@ -183,6 +201,23 @@ fcitx5-dynamic-themes render \
 任何能导出该 JSON、或能在配色更新后运行命令的工具都可以接入。完整约定见
 [docs.md](docs.md)，可用 [examples/palette.json](examples/palette.json) 做离线测试。
 
+### Theme Studio 可视化编辑器
+
+打开 [Theme Studio](https://dotredstone.github.io/fcitx5-dynamic-themes/)，可直接调节
+语义色、圆角几何和适用于 XWayland 的切角方案，并实时预览候选窗。它会导出一个符合
+[core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
+
+下载配置后可直接生成主题；产物是用户目录中普通、可写的 Fcitx5 Classic UI 主题，
+`--reload` 只会热加载 Classic UI：
+
+```bash
+fcitx5-dynamic-themes render \
+  --config ~/Downloads/my-fcitx-theme.json --reload
+```
+
+Theme Studio 没有账号、后端或遥测，源码就是仓库中的 [`web/`](web/)，因此也能离线打开
+或部署到任何静态站点服务。
+
 ### Nix / Home Manager
 
 将通用渲染命令和 Noctalia 设置工具安装进用户 profile：
@@ -224,7 +259,7 @@ Home Manager 同时安装软件包并启用声明式 Noctalia 提供方：
 
 ### Arch / AUR
 
-PKGBUILD 已固定到不可变的 `v0.2.1` 源码 tarball，并写入真实 SHA-256 校验和。
+PKGBUILD 已固定到不可变的 `v0.3.0` 源码 tarball，并写入真实 SHA-256 校验和。
 在 Arch Linux 上可直接本地构建并安装：
 
 ```bash

@@ -16,6 +16,20 @@ REQUIRED_COLORS = (
     "outline_variant",
 )
 HEX_COLOR = re.compile(r"^#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?$")
+DEFAULT_DESIGN = {
+    "panel_radius": 12.0,
+    "highlight_radius": 9.0,
+    "panel_outline_width": 1.25,
+    "panel_inner_opacity": 0.5,
+    "highlight_inner_opacity": 0.24,
+}
+DESIGN_LIMITS = {
+    "panel_radius": (0.0, 20.0),
+    "highlight_radius": (0.0, 20.0),
+    "panel_outline_width": (0.0, 3.0),
+    "panel_inner_opacity": (0.0, 1.0),
+    "highlight_inner_opacity": (0.0, 1.0),
+}
 
 
 def validate_palette(palette: dict[str, object], mode: str) -> dict[str, str]:
@@ -35,12 +49,41 @@ def validate_palette(palette: dict[str, object], mode: str) -> dict[str, str]:
     return checked
 
 
-def _panel_svg(colors: dict[str, str], variant: str) -> str:
+def validate_design(design: object | None) -> dict[str, float]:
+    """Merge optional shape controls with defaults or raise ValueError."""
+    if design is None:
+        return DEFAULT_DESIGN.copy()
+    if not isinstance(design, dict):
+        raise ValueError("design must be an object")
+
+    checked = DEFAULT_DESIGN.copy()
+    for name, value in design.items():
+        if name not in DESIGN_LIMITS:
+            raise ValueError(f"unknown design field: {name}")
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError(f"design.{name} must be a number")
+        lower, upper = DESIGN_LIMITS[name]
+        numeric = float(value)
+        if not lower <= numeric <= upper:
+            raise ValueError(f"design.{name} must be between {lower:g} and {upper:g}")
+        checked[name] = numeric
+    return checked
+
+
+def _number(value: float) -> str:
+    return f"{value:g}"
+
+
+def _panel_svg(colors: dict[str, str], variant: str, design: dict[str, float]) -> str:
     if variant == "rounded":
+        radius = _number(design["panel_radius"])
+        inner_radius = _number(max(design["panel_radius"] - 2.5, 0.0))
+        outline_width = _number(design["panel_outline_width"])
+        inner_opacity = _number(design["panel_inner_opacity"])
         return f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg width="30" height="30" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <rect x="4" y="4" width="52" height="52" rx="12" fill="{colors['surface_container_low']}" stroke="{colors['outline_variant']}" stroke-width="1.25"/>
-  <rect x="6.5" y="6.5" width="47" height="47" rx="9.5" fill="none" stroke="{colors['outline_variant']}" stroke-width="0.7" stroke-opacity="0.5"/>
+  <rect x="4" y="4" width="52" height="52" rx="{radius}" fill="{colors['surface_container_low']}" stroke="{colors['outline_variant']}" stroke-width="{outline_width}"/>
+  <rect x="6.5" y="6.5" width="47" height="47" rx="{inner_radius}" fill="none" stroke="{colors['outline_variant']}" stroke-width="0.7" stroke-opacity="{inner_opacity}"/>
 </svg>
 '''
     return f'''<?xml version="1.0" encoding="UTF-8"?>
@@ -52,12 +95,15 @@ def _panel_svg(colors: dict[str, str], variant: str) -> str:
 '''
 
 
-def _highlight_svg(colors: dict[str, str], variant: str) -> str:
+def _highlight_svg(colors: dict[str, str], variant: str, design: dict[str, float]) -> str:
     if variant == "rounded":
+        radius = _number(design["highlight_radius"])
+        inner_radius = _number(max(design["highlight_radius"] - 2.0, 0.0))
+        inner_opacity = _number(design["highlight_inner_opacity"])
         return f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg width="30" height="30" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <rect x="5" y="5" width="50" height="50" rx="9" fill="{colors['primary']}"/>
-  <rect x="7" y="7" width="46" height="46" rx="7" fill="none" stroke="{colors['on_primary']}" stroke-width="0.9" stroke-opacity="0.24"/>
+  <rect x="5" y="5" width="50" height="50" rx="{radius}" fill="{colors['primary']}"/>
+  <rect x="7" y="7" width="46" height="46" rx="{inner_radius}" fill="none" stroke="{colors['on_primary']}" stroke-width="0.9" stroke-opacity="{inner_opacity}"/>
 </svg>
 '''
     shape = "M13 4H47L56 13V47L47 56H13L4 47V13L13 4Z"
@@ -74,7 +120,7 @@ def _theme_conf(colors: dict[str, str], name: str, variant: str) -> str:
     compatibility = "native Wayland apps" if variant == "rounded" else "XWayland-compatible apps"
     return f'''[Metadata]
 Name={name}
-Version=0.2.1
+Version=0.3.0
 Author=fcitx5-dynamic-themes
 Description="Dynamic {variant} theme for {compatibility}."
 
@@ -165,14 +211,21 @@ Bottom=6
 '''
 
 
-def render_theme(colors: dict[str, str], variant: str, target: Path, name: str) -> None:
+def render_theme(
+    colors: dict[str, str],
+    variant: str,
+    target: Path,
+    name: str,
+    design: object | None = None,
+) -> None:
     """Write a self-contained Fcitx5 Classic UI theme directory."""
     if variant not in {"rounded", "angular"}:
         raise ValueError("variant must be 'rounded' or 'angular'")
+    design_values = validate_design(design)
     target.mkdir(parents=True, exist_ok=True)
     files = {
-        "panel.svg": _panel_svg(colors, variant),
-        "highlight.svg": _highlight_svg(colors, variant),
+        "panel.svg": _panel_svg(colors, variant, design_values),
+        "highlight.svg": _highlight_svg(colors, variant, design_values),
         "theme.conf": _theme_conf(colors, name, variant),
     }
     for filename, content in files.items():

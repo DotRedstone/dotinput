@@ -3,7 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from fcitx5_dynamic_themes.renderer import render_theme, validate_palette
+from fcitx5_dynamic_themes.cli import main
+from fcitx5_dynamic_themes.renderer import render_theme, validate_design, validate_palette
 
 
 PALETTE = {
@@ -39,6 +40,40 @@ class RendererTests(unittest.TestCase):
     def test_palette_requires_semantic_roles(self):
         with self.assertRaises(ValueError):
             validate_palette({"dark": {}}, "dark")
+
+    def test_design_rejects_unknown_or_out_of_range_fields(self):
+        with self.assertRaises(ValueError):
+            validate_design({"panel_radius": 21})
+        with self.assertRaises(ValueError):
+            validate_design({"unexpected": 1})
+
+    def test_cli_renders_theme_studio_config(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = root / "theme.json"
+            target = root / "theme"
+            config.write_text(
+                json.dumps(
+                    {
+                        "name": "studio-theme",
+                        "mode": "dark",
+                        "variant": "rounded",
+                        "palette": PALETTE,
+                        "design": {"panel_radius": 6, "highlight_radius": 4},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual(main(["render", "--config", str(config), "--target", str(target)]), 0)
+            self.assertIn('rx="6"', (target / "panel.svg").read_text())
+            self.assertIn('rx="4"', (target / "highlight.svg").read_text())
+
+    def test_cli_rejects_unsafe_theme_config_name(self):
+        with self.assertRaises(SystemExit):
+            main([
+                "render", "--config", str(Path("examples/custom-theme.json")),
+                "--name", "../not-a-theme",
+            ])
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fcitx5-dynamic-themes"
-version = "0.2.1"
+version = "0.3.0"
 description = "Provider-agnostic dynamic color themes for Fcitx5 Classic UI"
 readme = "README.md"
 requires-python = ">=3.10"

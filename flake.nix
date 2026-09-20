@@ -14,7 +14,7 @@
           pkgs = import nixpkgs { inherit system; };
           package = pkgs.python3Packages.buildPythonApplication {
             pname = "fcitx5-dynamic-themes";
-            version = "0.2.1";
+            version = "0.3.0";
             pyproject = true;
             src = self;
             nativeBuildInputs = [ pkgs.python3Packages.setuptools ];

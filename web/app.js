@@ -11,8 +11,10 @@ const copy = {
   },
 };
 
-copy.en.presets = "Presets";
-copy.zh.presets = "预设主题";
+copy.en.styleThemes = "Style";
+copy.zh.styleThemes = "样式主题";
+copy.en.colorThemes = "Color";
+copy.zh.colorThemes = "配色主题";
 
 const defaults = {
   name: "my-fcitx-theme",
@@ -30,17 +32,31 @@ const defaults = {
   },
 };
 
-const presets = [
-  { id: "studio", names: { en: "Studio", zh: "工作室" }, config: structuredClone(defaults) },
-  { id: "sea-glass", names: { en: "Sea Glass", zh: "海玻璃" }, config: { name: "sea-glass", mode: "dark", variant: "rounded", palette: { light: { surface: "#F7FBF8", surface_container_low: "#EAF5F0", surface_container_high: "#DDECE5", on_surface: "#17201D", primary: "#176B59", on_primary: "#FFFFFF", outline: "#65756E", outline_variant: "#C1D0C8" }, dark: { surface: "#18201D", surface_container_low: "#1D2722", surface_container_high: "#29342E", on_surface: "#E1E8E2", primary: "#7FD8B4", on_primary: "#003824", outline: "#8B9B92", outline_variant: "#3E4C45" } }, design: { panel_radius: 20, highlight_radius: 18, panel_outline_width: 2, content_padding: 4, text_margin_horizontal: 12, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.46, highlight_inner_opacity: 0.2, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
-  { id: "orchid-ink", names: { en: "Orchid Ink", zh: "兰墨" }, config: { name: "orchid-ink", mode: "dark", variant: "rounded", palette: { light: { surface: "#FCF8FC", surface_container_low: "#F7EFF7", surface_container_high: "#EEDFED", on_surface: "#251A25", primary: "#844D83", on_primary: "#FFFFFF", outline: "#806F7E", outline_variant: "#D1C2CF" }, dark: { surface: "#231B24", surface_container_low: "#2C222D", surface_container_high: "#392C3A", on_surface: "#F0E4EF", primary: "#ECB8E8", on_primary: "#4E1A50", outline: "#A996A5", outline_variant: "#544654" } }, design: { panel_radius: 24, highlight_radius: 22, panel_outline_width: 2.5, content_padding: 3, text_margin_horizontal: 13, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.5, highlight_inner_opacity: 0.28, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
-  { id: "citrus-note", names: { en: "Citrus Note", zh: "柑橘便签" }, config: { name: "citrus-note", mode: "light", variant: "rounded", palette: { light: { surface: "#FFF9F0", surface_container_low: "#FFF1DB", surface_container_high: "#FCE2C0", on_surface: "#2B2114", primary: "#9A4F00", on_primary: "#FFFFFF", outline: "#866F55", outline_variant: "#DBC5A8" }, dark: { surface: "#2A2117", surface_container_low: "#34291D", surface_container_high: "#443523", on_surface: "#F6E7D0", primary: "#FFB869", on_primary: "#542400", outline: "#B59B7D", outline_variant: "#5E4B38" } }, design: { panel_radius: 16, highlight_radius: 14, panel_outline_width: 2, content_padding: 6, text_margin_horizontal: 11, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.42, highlight_inner_opacity: 0.22, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
-  { id: "rose-quartz", names: { en: "Rose Quartz", zh: "蔷薇石英" }, config: { name: "rose-quartz", mode: "dark", variant: "rounded", palette: { light: { surface: "#FFF8F8", surface_container_low: "#FDEEF0", surface_container_high: "#F6DFE3", on_surface: "#28191D", primary: "#A43D63", on_primary: "#FFFFFF", outline: "#886D75", outline_variant: "#DDC1C9" }, dark: { surface: "#291B20", surface_container_low: "#342127", surface_container_high: "#432B33", on_surface: "#F6E2E8", primary: "#FFB1C6", on_primary: "#651331", outline: "#B49AA3", outline_variant: "#5E444D" } }, design: { panel_radius: 22, highlight_radius: 20, panel_outline_width: 2.2, content_padding: 4, text_margin_horizontal: 12, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.48, highlight_inner_opacity: 0.26, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } } },
+const styleThemes = [
+  { id: "studio", names: { en: "Studio", zh: "工作室" }, design: structuredClone(defaults.design) },
+  { id: "compact", names: { en: "Compact", zh: "紧凑" }, design: { panel_radius: 14, highlight_radius: 12, panel_outline_width: 2, content_padding: 0, text_margin_horizontal: 10, text_margin_vertical: 5, text_margin_bottom: 6, panel_inner_opacity: 0.42, highlight_inner_opacity: 0.18, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } },
+  { id: "soft", names: { en: "Soft", zh: "柔润" }, design: { panel_radius: 26, highlight_radius: 25, panel_outline_width: 3, content_padding: 4, text_margin_horizontal: 12, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.5, highlight_inner_opacity: 0.24, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } },
+  { id: "outlined", names: { en: "Outlined", zh: "描边" }, design: { panel_radius: 20, highlight_radius: 18, panel_outline_width: 5, content_padding: 3, text_margin_horizontal: 12, text_margin_vertical: 6, text_margin_bottom: 7, panel_inner_opacity: 0.58, highlight_inner_opacity: 0.3, panel_slice_margin: 15, highlight_slice_margin_horizontal: 15, highlight_slice_margin_vertical: 10, full_width_highlight: true, candidate_comment_scale: 1 } },
+];
+
+const colorThemes = [
+  { id: "studio", names: { en: "Studio", zh: "工作室" }, mode: "dark", palette: structuredClone(defaults.palette) },
+  { id: "sea-glass", names: { en: "Sea Glass", zh: "海玻璃" }, mode: "dark", palette: { light: { surface: "#F7FBF8", surface_container_low: "#EAF5F0", surface_container_high: "#DDECE5", on_surface: "#17201D", primary: "#176B59", on_primary: "#FFFFFF", outline: "#65756E", outline_variant: "#C1D0C8" }, dark: { surface: "#18201D", surface_container_low: "#1D2722", surface_container_high: "#29342E", on_surface: "#E1E8E2", primary: "#7FD8B4", on_primary: "#003824", outline: "#8B9B92", outline_variant: "#3E4C45" } } },
+  { id: "orchid-ink", names: { en: "Orchid Ink", zh: "兰墨" }, mode: "dark", palette: { light: { surface: "#FCF8FC", surface_container_low: "#F7EFF7", surface_container_high: "#EEDFED", on_surface: "#251A25", primary: "#844D83", on_primary: "#FFFFFF", outline: "#806F7E", outline_variant: "#D1C2CF" }, dark: { surface: "#231B24", surface_container_low: "#2C222D", surface_container_high: "#392C3A", on_surface: "#F0E4EF", primary: "#ECB8E8", on_primary: "#4E1A50", outline: "#A996A5", outline_variant: "#544654" } } },
+  { id: "citrus-note", names: { en: "Citrus Note", zh: "柑橘便签" }, mode: "light", palette: { light: { surface: "#FFF9F0", surface_container_low: "#FFF1DB", surface_container_high: "#FCE2C0", on_surface: "#2B2114", primary: "#9A4F00", on_primary: "#FFFFFF", outline: "#866F55", outline_variant: "#DBC5A8" }, dark: { surface: "#2A2117", surface_container_low: "#34291D", surface_container_high: "#443523", on_surface: "#F6E7D0", primary: "#FFB869", on_primary: "#542400", outline: "#B59B7D", outline_variant: "#5E4B38" } } },
+  { id: "rose-quartz", names: { en: "Rose Quartz", zh: "蔷薇石英" }, mode: "dark", palette: { light: { surface: "#FFF8F8", surface_container_low: "#FDEEF0", surface_container_high: "#F6DFE3", on_surface: "#28191D", primary: "#A43D63", on_primary: "#FFFFFF", outline: "#886D75", outline_variant: "#DDC1C9" }, dark: { surface: "#291B20", surface_container_low: "#342127", surface_container_high: "#432B33", on_surface: "#F6E2E8", primary: "#FFB1C6", on_primary: "#651331", outline: "#B49AA3", outline_variant: "#5E444D" } } },
+  { id: "forest-canopy", names: { en: "Canopy", zh: "林冠" }, mode: "dark", palette: { light: { surface: "#F5FAF1", surface_container_low: "#E9F3E3", surface_container_high: "#DCE9D5", on_surface: "#1A2317", primary: "#416E2A", on_primary: "#FFFFFF", outline: "#6E7C65", outline_variant: "#C4D0BA" }, dark: { surface: "#1B2417", surface_container_low: "#222D1D", surface_container_high: "#2E3B27", on_surface: "#E4ECD9", primary: "#A6D783", on_primary: "#173900", outline: "#99A58D", outline_variant: "#465140" } } },
+  { id: "blueprint", names: { en: "Blueprint", zh: "蓝图" }, mode: "dark", palette: { light: { surface: "#F8FAFF", surface_container_low: "#EDF2FC", surface_container_high: "#E0E8F7", on_surface: "#19202C", primary: "#365C9C", on_primary: "#FFFFFF", outline: "#68778D", outline_variant: "#C0CADB" }, dark: { surface: "#1C222D", surface_container_low: "#232B38", surface_container_high: "#2E3747", on_surface: "#E4E9F4", primary: "#B3C5FF", on_primary: "#123268", outline: "#98A7BF", outline_variant: "#445064" } } },
+  { id: "ember", names: { en: "Ember", zh: "余烬" }, mode: "dark", palette: { light: { surface: "#FFF8F5", surface_container_low: "#FFEDE7", surface_container_high: "#FBDDD3", on_surface: "#2D1D1A", primary: "#A94632", on_primary: "#FFFFFF", outline: "#8B6D65", outline_variant: "#DFC2B9" }, dark: { surface: "#2B1D1A", surface_container_low: "#36231E", surface_container_high: "#452D26", on_surface: "#F8E3DC", primary: "#FFB3A1", on_primary: "#61210F", outline: "#B69A92", outline_variant: "#5E443D" } } },
+  { id: "peacock", names: { en: "Peacock", zh: "孔雀" }, mode: "dark", palette: { light: { surface: "#F4FBFB", surface_container_low: "#E5F4F3", surface_container_high: "#D7E9E9", on_surface: "#172324", primary: "#007D82", on_primary: "#FFFFFF", outline: "#617A7B", outline_variant: "#B8D0D0" }, dark: { surface: "#172526", surface_container_low: "#1D3031", surface_container_high: "#284041", on_surface: "#D9ECEB", primary: "#6DDBDB", on_primary: "#003D3F", outline: "#90A9A9", outline_variant: "#405657" } } },
+  { id: "paper-sage", names: { en: "Paper Sage", zh: "纸上鼠尾草" }, mode: "light", palette: { light: { surface: "#FBFCF7", surface_container_low: "#F1F4E9", surface_container_high: "#E6EADF", on_surface: "#20231C", primary: "#5D6E32", on_primary: "#FFFFFF", outline: "#727866", outline_variant: "#CCD1C0" }, dark: { surface: "#23271E", surface_container_low: "#2C3125", surface_container_high: "#383E2F", on_surface: "#E8EADD", primary: "#C2D58E", on_primary: "#2B3907", outline: "#A6AA98", outline_variant: "#505545" } } },
 ];
 
 let state = structuredClone(defaults);
 let preview = { layout: "horizontal", candidateCount: 5 };
 let language = navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en";
+let selectedStyleTheme = "studio";
+let selectedColorTheme = "studio";
 const designControls = {
   "panel-radius": ["panel_radius", "panel-radius-value"],
   "highlight-radius": ["highlight_radius", "highlight-radius-value"],
@@ -106,19 +122,27 @@ function renderColorControls() {
     const row = document.createElement("div"); row.className = "color-row";
     const label = document.createElement("label"); label.htmlFor = `color-${role}`; label.textContent = role;
     const hex = document.createElement("input"); hex.className = "hex-input"; hex.type = "text"; hex.maxLength = 7; hex.value = colors[role]; hex.setAttribute("aria-label", `${role} hex value`);
-    const updateHex = () => { if (!/^#[0-9a-fA-F]{6}$/.test(hex.value)) return false; state.palette[state.mode][role] = hex.value.toUpperCase(); render(); return true; };
+    const updateHex = () => { if (!/^#[0-9a-fA-F]{6}$/.test(hex.value)) return false; state.palette[state.mode][role] = hex.value.toUpperCase(); selectedColorTheme = null; render(); return true; };
     hex.addEventListener("input", updateHex); hex.addEventListener("change", () => { if (!updateHex()) render(); });
-    const picker = document.createElement("input"); picker.id = `color-${role}`; picker.className = "color-input"; picker.type = "color"; picker.value = colors[role]; picker.addEventListener("input", () => { state.palette[state.mode][role] = picker.value.toUpperCase(); render(); });
+    const picker = document.createElement("input"); picker.id = `color-${role}`; picker.className = "color-input"; picker.type = "color"; picker.value = colors[role]; picker.addEventListener("input", () => { state.palette[state.mode][role] = picker.value.toUpperCase(); selectedColorTheme = null; render(); });
     row.append(label, hex, picker); return row;
   }));
 }
 
-function renderPresets() {
-  byId("preset-grid").replaceChildren(...presets.map((preset) => {
-    const button = document.createElement("button"); button.type = "button"; button.className = `preset-button${state.name === preset.config.name ? " active" : ""}`; button.setAttribute("role", "listitem"); button.title = preset.names[language]; button.setAttribute("aria-label", preset.names[language]);
+function renderStyleThemes() {
+  byId("style-grid").replaceChildren(...styleThemes.map((theme) => {
+    const button = document.createElement("button"); button.type = "button"; button.className = `preset-button${selectedStyleTheme === theme.id ? " active" : ""}`; button.setAttribute("role", "listitem"); button.title = theme.names[language]; button.setAttribute("aria-label", theme.names[language]);
+    const silhouette = document.createElement("span"); silhouette.className = "style-silhouette"; silhouette.style.setProperty("--style-radius", `${theme.design.panel_radius / 2}px`); silhouette.style.setProperty("--style-outline", `${Math.max(theme.design.panel_outline_width / 2, 1)}px`);
+    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = theme.names[language]; button.append(silhouette, name); button.addEventListener("click", () => { state.design = structuredClone(theme.design); selectedStyleTheme = theme.id; render(); }); return button;
+  }));
+}
+
+function renderColorThemes() {
+  byId("color-theme-grid").replaceChildren(...colorThemes.map((theme) => {
+    const button = document.createElement("button"); button.type = "button"; button.className = `color-theme-button${selectedColorTheme === theme.id ? " active" : ""}`; button.setAttribute("role", "listitem"); button.title = theme.names[language]; button.setAttribute("aria-label", theme.names[language]);
     const swatches = document.createElement("span"); swatches.className = "preset-swatches";
-    ["surface", "primary", "outline_variant"].forEach((role) => { const swatch = document.createElement("span"); swatch.className = "preset-swatch"; swatch.style.background = preset.config.palette[preset.config.mode][role]; swatches.append(swatch); });
-    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = preset.names[language]; button.append(swatches, name); button.addEventListener("click", () => { state = structuredClone(preset.config); render(); }); return button;
+    ["surface", "primary", "outline_variant"].forEach((role) => { const swatch = document.createElement("span"); swatch.className = "preset-swatch"; swatch.style.background = theme.palette[state.mode][role]; swatches.append(swatch); });
+    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = theme.names[language]; button.append(swatches, name); button.addEventListener("click", () => { state.palette = structuredClone(theme.palette); selectedColorTheme = theme.id; render(); }); return button;
   }));
 }
 
@@ -141,13 +165,13 @@ function render() {
   byId("full-width-highlight").checked = state.design.full_width_highlight;
   byId("candidate-count").value = preview.candidateCount; byId("candidate-less").disabled = preview.candidateCount <= 3; byId("candidate-more").disabled = preview.candidateCount >= candidateWords.length;
   const panel = byId("candidate-panel"); panel.classList.toggle("horizontal", preview.layout === "horizontal"); panel.classList.toggle("full-width-highlight", state.design.full_width_highlight);
-  renderPresets(); renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = `fcitx5-dynamic-themes render --config ~/Downloads/${safeName(state.name)}.json --reload`; window.lucide.createIcons();
+  renderStyleThemes(); renderColorThemes(); renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = `fcitx5-dynamic-themes render --config ~/Downloads/${safeName(state.name)}.json --reload`; window.lucide.createIcons();
 }
 
 function mergeImportedTheme(payload) {
   if (!payload || typeof payload !== "object" || !payload.palette || !payload.palette.light || !payload.palette.dark) throw new Error("Theme JSON needs light and dark palettes.");
   for (const mode of ["light", "dark"]) for (const role of colorRoles) if (!/^#[0-9a-fA-F]{6}$/.test(payload.palette[mode][role] || "")) throw new Error(`Invalid ${mode}.${role} color.`);
-  state = structuredClone(defaults); state.name = typeof payload.name === "string" ? payload.name.slice(0, 64) : state.name; state.mode = payload.mode === "light" ? "light" : "dark"; state.palette = payload.palette;
+  state = structuredClone(defaults); state.name = typeof payload.name === "string" ? payload.name.slice(0, 64) : state.name; state.mode = payload.mode === "light" ? "light" : "dark"; state.palette = payload.palette; selectedStyleTheme = null; selectedColorTheme = null;
   if (payload.design && typeof payload.design === "object") for (const [key, value] of Object.entries(payload.design)) {
     if (key === "full_width_highlight" && typeof value === "boolean") state.design[key] = value;
     else if (key in state.design && typeof value === "number" && Number.isFinite(value)) state.design[key] = value;
@@ -155,15 +179,15 @@ function mergeImportedTheme(payload) {
 }
 
 function copied(button) { const icon = button.querySelector("svg"); if (!icon) return; const previous = icon.outerHTML; icon.outerHTML = '<i data-lucide="check"></i>'; window.lucide.createIcons(); window.setTimeout(() => { button.innerHTML = previous; window.lucide.createIcons(); }, 1200); }
-function resetTheme() { state = structuredClone(defaults); render(); }
+function resetTheme() { state = structuredClone(defaults); selectedStyleTheme = "studio"; selectedColorTheme = "studio"; render(); }
 
 document.addEventListener("DOMContentLoaded", () => {
   byId("theme-name").addEventListener("input", (event) => { state.name = event.target.value; render(); });
   document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", () => { language = button.dataset.language; render(); }));
   document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => { state.mode = button.dataset.mode; render(); }));
   document.querySelectorAll("[data-preview-layout]").forEach((button) => button.addEventListener("click", () => { preview.layout = button.dataset.previewLayout; render(); }));
-  Object.entries(designControls).forEach(([id, [key]]) => byId(id).addEventListener("input", (event) => { state.design[key] = Number(event.target.value); render(); }));
-  byId("full-width-highlight").addEventListener("change", (event) => { state.design.full_width_highlight = event.target.checked; render(); });
+  Object.entries(designControls).forEach(([id, [key]]) => byId(id).addEventListener("input", (event) => { state.design[key] = Number(event.target.value); selectedStyleTheme = null; render(); }));
+  byId("full-width-highlight").addEventListener("change", (event) => { state.design.full_width_highlight = event.target.checked; selectedStyleTheme = null; render(); });
   byId("candidate-less").addEventListener("click", () => { preview.candidateCount = Math.max(3, preview.candidateCount - 1); render(); }); byId("candidate-more").addEventListener("click", () => { preview.candidateCount = Math.min(candidateWords.length, preview.candidateCount + 1); render(); });
   byId("reset").addEventListener("click", resetTheme); byId("reset-theme").addEventListener("click", resetTheme);
   byId("download").addEventListener("click", () => { const file = new Blob([JSON.stringify(exportConfig(), null, 2) + "\n"], { type: "application/json" }); const link = Object.assign(document.createElement("a"), { href: URL.createObjectURL(file), download: `${safeName(state.name)}.json` }); link.click(); URL.revokeObjectURL(link.href); });

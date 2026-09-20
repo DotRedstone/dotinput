@@ -17,8 +17,8 @@ fully integrated provider, not a project-wide requirement.
 
 ### Start here
 
-1. Open [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) and pick a preset.
-2. Adjust its colors or geometry only when you want to, then download the JSON.
+1. Open [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) and pick a style plus a color theme.
+2. Adjust geometry or colors only when you want to, then download the JSON.
 3. Run `fcitx5-dynamic-themes render --config ~/Downloads/my-fcitx-theme.json --reload`.
 
 For automatic wallpaper-synchronized colors, use the Noctalia setup below instead:
@@ -70,10 +70,12 @@ test palette.
 
 ### Theme Studio
 
-[Open Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) includes
-five ready-to-render presets: Studio, Sea Glass, Orchid Ink, Citrus Note, and
-Rose Quartz. Each preset has light and dark semantic palettes plus matching
-rounded geometry. All supported output controls are visible: panel and
+[Open Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) keeps style
+and color independent. Pick one of four rounded style themes (Studio, Compact,
+Soft, or Outlined), then combine it with one of ten color themes. Every color
+theme includes light and dark semantic palettes; every style theme includes its
+own radius, outline, inset, and margin values. All supported output controls
+are visible: panel and
 highlight radius, outline, content and text margins, image slices, inner lines,
 vertical full-width highlighting, and candidate comment scale. The rounded
 preview uses the same half-scale SVG geometry as the generated 30px asset with
@@ -183,7 +185,7 @@ nix build .# --no-link
 
 ### 三步开始
 
-1. 打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，先选一套预设。
+1. 打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，先选样式主题和配色主题。
 2. 只在需要时微调颜色或几何参数，然后下载 JSON。
 3. 运行 `fcitx5-dynamic-themes render --config ~/Downloads/my-fcitx-theme.json --reload`。
 
@@ -232,9 +234,10 @@ fcitx5-dynamic-themes render \
 
 ### Theme Studio 可视化编辑器
 
-打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，先从五套可直接渲染的预设中选择：
-工作室、海玻璃、兰墨、柑橘便签和蔷薇石英。每套都包含深浅两组语义色与匹配的圆角几何参数。所有支持写入
-主题的参数都直接展示：面板/高亮圆角、描边、内容与文字边距、图片切片、内环、纵向满宽高亮和候选注释缩放。
+打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) 时，样式和配色彼此独立：可先从工作室、紧凑、
+柔润、描边四套圆角样式中选一套，再搭配十套配色主题。每套配色都有深浅两组语义色；每套样式决定圆角、描边、
+内环与边距。所有支持写入主题的参数都直接展示：面板/高亮圆角、描边、内容与文字边距、图片切片、内环、
+纵向满宽高亮和候选注释缩放。
 圆角预览遵循生成主题的 30px SVG 画布与 60px viewBox 的半缩放关系；而 Fcitx5 的内容和文字边距仍按原始像素
 计算。它会导出一个符合 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
 网站提供简体中文和英文界面。候选词横向/纵向布局和候选词数量只是预览控件，不会进入

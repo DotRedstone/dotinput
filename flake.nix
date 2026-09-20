@@ -12,9 +12,7 @@
       packages = forAllSystems (system:
         let
           pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          default = pkgs.python3Packages.buildPythonApplication {
+          package = pkgs.python3Packages.buildPythonApplication {
             pname = "fcitx5-dynamic-themes";
             version = "0.2.0";
             pyproject = true;
@@ -29,7 +27,19 @@
               PYTHONPATH=src ${pkgs.python3}/bin/python -m unittest discover -s tests
             '';
           };
+        in
+        {
+          default = package;
+          fcitx5-dynamic-themes = package;
         });
+
+      apps = forAllSystems (system: {
+        default = {
+          type = "app";
+          program = "${self.packages.${system}.default}/bin/fcitx5-dynamic-themes";
+          meta.description = "Render dynamic Fcitx5 Classic UI themes";
+        };
+      });
 
       homeManagerModules.default = import ./modules/home-manager.nix;
     };

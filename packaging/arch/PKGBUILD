@@ -10,7 +10,7 @@ depends=('fcitx5' 'python')
 optdepends=('noctalia: Noctalia dynamic color provider')
 makedepends=('python-build' 'python-installer' 'python-setuptools')
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('SKIP')
+sha256sums=('8f80456ce9485ac0df35e20e8e3694b576ee1a88026647b4369f8f3f0cc4b30d')
 
 build() {
   cd "${pkgname}-${pkgver}"

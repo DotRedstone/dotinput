@@ -9,6 +9,12 @@ supplies a semantic palette, this project renders complete Fcitx5 assets, and
 Classic UI reloads without restarting the input method. Noctalia is the first
 fully integrated provider, not a project-wide requirement.
 
+| Delivery | Status | Entry point |
+| --- | --- | --- |
+| Nix Flake | Ready | `nix profile install github:DotRedstone/fcitx5-dynamic-themes` |
+| Arch PKGBUILD | Ready | `packaging/arch/PKGBUILD` |
+| AUR | Pending AUR SSH key | Package name: `fcitx5-dynamic-themes` |
+
 ### Theme family
 
 | Theme | Intended clients | Shape language |
@@ -59,11 +65,31 @@ test palette.
 
 ### Nix / Home Manager
 
+Install the command-line renderer and Noctalia setup helper into a profile:
+
+```bash
+nix profile install github:DotRedstone/fcitx5-dynamic-themes
+fcitx5-dynamic-themes --help
+fcitx5-dynamic-themes-noctalia-setup
+```
+
+Run the renderer without installing it permanently:
+
+```bash
+nix run github:DotRedstone/fcitx5-dynamic-themes -- --help
+```
+
+For Home Manager, use both the package and the declarative Noctalia provider:
+
 ```nix
 {
   inputs.fcitx5-dynamic-themes.url = "github:DotRedstone/fcitx5-dynamic-themes";
 
   imports = [ inputs.fcitx5-dynamic-themes.homeManagerModules.default ];
+
+  home.packages = [
+    inputs.fcitx5-dynamic-themes.packages.${pkgs.stdenv.hostPlatform.system}.default
+  ];
 
   programs.fcitx5DynamicThemes = {
     enable = true;
@@ -79,11 +105,19 @@ activation, then run `noctalia msg templates-apply` after login.
 
 ### Arch / AUR
 
-[packaging/arch](packaging/arch) contains the AUR packaging source. The
-published AUR repository will use a release tarball checksum after a versioned
-GitHub release is created. Package installation never modifies user Fcitx5 or
-Noctalia configuration; users explicitly run
-`fcitx5-dynamic-themes-noctalia-setup` to enable the Noctalia provider.
+The PKGBUILD is pinned to the immutable `v0.2.0` source tarball and has a real
+SHA-256 checksum. Build and install it locally on Arch Linux:
+
+```bash
+git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
+cd fcitx5-dynamic-themes/packaging/arch
+makepkg -si
+fcitx5-dynamic-themes-noctalia-setup
+```
+
+The intended AUR package name is `fcitx5-dynamic-themes`, but publication is
+waiting for the maintainer's AUR SSH key. Package installation never modifies
+user Fcitx5 or Noctalia configuration; the setup command is always explicit.
 
 ### Development
 
@@ -98,6 +132,12 @@ nix build .# --no-link
 这是一个面向 Fcitx5 Classic UI 的动态配色主题项目。调色板提供方输出
 语义色彩，本项目据此生成完整的 Fcitx5 主题文件，并仅热加载 Classic UI，
 不会重启输入法。Noctalia 是第一个完整接入的提供方，但并不是项目的前置依赖。
+
+| 分发方式 | 状态 | 安装入口 |
+| --- | --- | --- |
+| Nix Flake | 已可用 | `nix profile install github:DotRedstone/fcitx5-dynamic-themes` |
+| Arch PKGBUILD | 已可用 | `packaging/arch/PKGBUILD` |
+| AUR | 等待 AUR SSH 密钥 | 包名：`fcitx5-dynamic-themes` |
 
 ### 主题族
 
@@ -145,11 +185,31 @@ fcitx5-dynamic-themes render \
 
 ### Nix / Home Manager
 
+将通用渲染命令和 Noctalia 设置工具安装进用户 profile：
+
+```bash
+nix profile install github:DotRedstone/fcitx5-dynamic-themes
+fcitx5-dynamic-themes --help
+fcitx5-dynamic-themes-noctalia-setup
+```
+
+无需安装、临时运行渲染器：
+
+```bash
+nix run github:DotRedstone/fcitx5-dynamic-themes -- --help
+```
+
+Home Manager 同时安装软件包并启用声明式 Noctalia 提供方：
+
 ```nix
 {
   inputs.fcitx5-dynamic-themes.url = "github:DotRedstone/fcitx5-dynamic-themes";
 
   imports = [ inputs.fcitx5-dynamic-themes.homeManagerModules.default ];
+
+  home.packages = [
+    inputs.fcitx5-dynamic-themes.packages.${pkgs.stdenv.hostPlatform.system}.default
+  ];
 
   programs.fcitx5DynamicThemes = {
     enable = true;
@@ -164,10 +224,18 @@ fcitx5-dynamic-themes render \
 
 ### Arch / AUR
 
-[packaging/arch](packaging/arch) 提供 AUR 打包源。正式 AUR 仓库会在创建版本化
-GitHub Release 后使用对应 tarball 的校验和。软件包安装不会修改用户的 Noctalia
-或 Fcitx5 配置；需要用户显式运行
-`fcitx5-dynamic-themes-noctalia-setup` 才会启用 Noctalia 提供方。
+PKGBUILD 已固定到不可变的 `v0.2.0` 源码 tarball，并写入真实 SHA-256 校验和。
+在 Arch Linux 上可直接本地构建并安装：
+
+```bash
+git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
+cd fcitx5-dynamic-themes/packaging/arch
+makepkg -si
+fcitx5-dynamic-themes-noctalia-setup
+```
+
+AUR 计划使用的包名为 `fcitx5-dynamic-themes`，但发布仍等待维护者绑定 AUR SSH 密钥。
+软件包安装不会改动用户的 Fcitx5 或 Noctalia 配置；启用提供方始终需要用户显式运行设置命令。
 
 ### 开发与验证
 

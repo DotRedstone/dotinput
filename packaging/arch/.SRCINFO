@@ -1,0 +1,17 @@
+pkgbase = fcitx5-dynamic-themes
+	pkgdesc = Provider-agnostic dynamic color themes for Fcitx5 Classic UI
+	pkgver = 0.2.0
+	pkgrel = 1
+	url = https://github.com/DotRedstone/fcitx5-dynamic-themes
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	depends = fcitx5
+	depends = python
+	optdepends = noctalia: Noctalia dynamic color provider
+	source = fcitx5-dynamic-themes-0.2.0.tar.gz::https://github.com/DotRedstone/fcitx5-dynamic-themes/archive/refs/tags/v0.2.0.tar.gz
+	sha256sums = 8f80456ce9485ac0df35e20e8e3694b576ee1a88026647b4369f8f3f0cc4b30d
+
+pkgname = fcitx5-dynamic-themes

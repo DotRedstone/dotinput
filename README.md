@@ -21,7 +21,7 @@ requirement.
 1. Install DotInput once: `nix profile install github:DotRedstone/dotinput`.
 2. Open [Theme Studio](https://blog.dotres.cn/dotinput/), pick a style plus a color theme, and adjust it when you want to.
 3. Click **Copy apply command**, paste it into a terminal, and run it. The one-line
-   `dotinput` command writes the theme and reloads Classic UI.
+   `dotinput` command writes the theme, selects it for the matching color mode, and reloads Classic UI.
 
 For automatic wallpaper-synchronized colors, use the Noctalia setup below instead:
 it manages the palette updates while you keep the generated rounded theme
@@ -98,7 +98,7 @@ JSON file. The output is a regular writable Fcitx5 Classic UI theme and
 
 ```bash
 dotinput render \
-  --config-base64 '<Theme-Studio-command-data>' --reload
+  --config-base64 '<Theme-Studio-command-data>' --activate --reload
 ```
 
 The Studio has no account, backend, or telemetry. Its source is static in
@@ -193,7 +193,7 @@ Classic UI，不会重启输入法。Noctalia 是第一个完整接入的提供�
 
 1. 先安装一次 DotInput：`nix profile install github:DotRedstone/dotinput`。
 2. 打开 [Theme Studio](https://blog.dotres.cn/dotinput/)，选择样式主题和配色主题，并按需微调。
-3. 点击“复制应用命令”，粘贴进终端执行。一行 `dotinput` 命令会写入主题并热加载 Classic UI。
+3. 点击“复制应用命令”，粘贴进终端执行。一行 `dotinput` 命令会写入主题、选中对应深浅模式，并热加载 Classic UI。
 
 想让配色跟壁纸自动同步，则使用下面的 Noctalia 接入：它负责更新调色板，而 Fcitx5
 继续选择生成出的圆角主题即可。
@@ -255,7 +255,7 @@ dotinput render \
 
 ```bash
 dotinput render \
-  --config-base64 '<Theme-Studio-command-data>' --reload
+  --config-base64 '<Theme-Studio-command-data>' --activate --reload
 ```
 
 Theme Studio 没有账号、后端或遥测，源码就是仓库中的 [`web/`](web/)，因此也能离线打开

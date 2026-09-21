@@ -3,6 +3,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from dotinput.cli import main
 from dotinput.renderer import render_theme, validate_design, validate_palette
@@ -107,6 +108,30 @@ class RendererTests(unittest.TestCase):
             )
             self.assertIn('rx="20"', (target / "panel.svg").read_text())
             self.assertIn('rx="16"', (target / "highlight.svg").read_text())
+
+    def test_cli_activates_dark_theme_without_rewriting_light_theme(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = root / "theme.json"
+            target = root / "theme"
+            classicui = root / "fcitx5" / "conf" / "classicui.conf"
+            classicui.parent.mkdir(parents=True)
+            classicui.write_text(
+                "Theme=light-theme\nDarkTheme=old-dark-theme\nUseDarkTheme=True\n",
+                encoding="utf-8",
+            )
+            config.write_text(
+                json.dumps({"name": "new-dark-theme", "mode": "dark", "variant": "rounded", "palette": PALETTE}),
+                encoding="utf-8",
+            )
+            with patch.dict("os.environ", {"XDG_CONFIG_HOME": str(root)}, clear=False):
+                self.assertEqual(
+                    main(["render", "--config", str(config), "--target", str(target), "--activate"]),
+                    0,
+                )
+            content = classicui.read_text(encoding="utf-8")
+            self.assertIn("Theme=light-theme", content)
+            self.assertIn("DarkTheme=new-dark-theme", content)
 
     def test_cli_rejects_unsafe_theme_config_name(self):
         with self.assertRaises(SystemExit):

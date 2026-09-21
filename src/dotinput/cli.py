@@ -6,6 +6,7 @@ import argparse
 import base64
 import binascii
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -19,6 +20,38 @@ THEME_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 def _default_target(name: str) -> Path:
     data_home = Path.home() / ".local" / "share"
     return data_home / "fcitx5" / "themes" / name
+
+
+def _classicui_config_path() -> Path:
+    config_home = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+    return config_home / "fcitx5" / "conf" / "classicui.conf"
+
+
+def _config_value(content: str, key: str) -> str | None:
+    match = re.search(rf"^\s*{re.escape(key)}\s*=\s*(.*)$", content, flags=re.MULTILINE)
+    return match.group(1).strip() if match else None
+
+
+def _set_config_value(content: str, key: str, value: str) -> str:
+    pattern = re.compile(rf"^(\s*{re.escape(key)}\s*=\s*).*$", flags=re.MULTILINE)
+    if pattern.search(content):
+        return pattern.sub(rf"\g<1>{value}", content)
+    suffix = "" if not content or content.endswith("\n") else "\n"
+    return f"{content}{suffix}{key}={value}\n"
+
+
+def _activate_classicui_theme(name: str, mode: str) -> Path:
+    """Select one generated theme without rewriting unrelated Classic UI settings."""
+    config_path = _classicui_config_path()
+    try:
+        content = config_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        content = ""
+    use_dark_theme = _config_value(content, "UseDarkTheme") == "True"
+    key = "DarkTheme" if mode == "dark" and use_dark_theme else "Theme"
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    config_path.write_text(_set_config_value(content, key, name), encoding="utf-8")
+    return config_path
 
 
 def _reload_classicui() -> None:
@@ -99,6 +132,11 @@ def main(argv: list[str] | None = None) -> int:
     render.add_argument("--variant", choices=("rounded", "angular"))
     render.add_argument("--name")
     render.add_argument("--target", type=Path)
+    render.add_argument(
+        "--activate",
+        action="store_true",
+        help="select the generated theme for its light or dark Classic UI mode",
+    )
     render.add_argument("--reload", action="store_true")
 
     validate = commands.add_parser("validate", help="validate a semantic palette JSON")
@@ -135,6 +173,8 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError("theme name must use letters, digits, dots, underscores, or hyphens")
         target = args.target or _default_target(name)
         render_theme(colors, variant, target, name, design)
+        if args.activate:
+            _activate_classicui_theme(name, mode)
         if args.reload:
             _reload_classicui()
         print(target)

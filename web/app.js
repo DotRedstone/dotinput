@@ -86,7 +86,7 @@ function encodeConfig() {
   bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
   return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
-function installCommand() { return `dotinput render --config-base64 '${encodeConfig()}' --reload`; }
+function installCommand() { return `dotinput render --config-base64 '${encodeConfig()}' --activate --reload`; }
 async function copyText(value) {
   try {
     await navigator.clipboard.writeText(value);

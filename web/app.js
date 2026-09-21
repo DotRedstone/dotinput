@@ -87,7 +87,6 @@ function encodeConfig() {
   return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 function installCommand() { return `dotinput render --config-base64 '${encodeConfig()}' --reload`; }
-function installCommandPreview() { return "dotinput render --config-base64 '<generated-theme-data>' --reload"; }
 async function copyText(value) {
   try {
     await navigator.clipboard.writeText(value);
@@ -190,7 +189,7 @@ function render() {
   byId("full-width-highlight").checked = state.design.full_width_highlight;
   byId("candidate-count").value = preview.candidateCount; byId("candidate-less").disabled = preview.candidateCount <= 3; byId("candidate-more").disabled = preview.candidateCount >= candidateWords.length;
   const panel = byId("candidate-panel"); panel.classList.toggle("horizontal", preview.layout === "horizontal"); panel.classList.toggle("full-width-highlight", state.design.full_width_highlight);
-  renderStyleThemes(); renderColorThemes(); renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = installCommandPreview(); window.lucide.createIcons();
+  renderStyleThemes(); renderColorThemes(); renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = installCommand(); window.lucide.createIcons();
 }
 
 function mergeImportedTheme(payload) {

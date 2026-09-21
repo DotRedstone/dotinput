@@ -1,13 +1,13 @@
-# Arch / AUR release files
+# Arch development package
 
-This directory contains a reproducible Arch package recipe for the immutable
-`v0.3.0` GitHub source tarball. Its SHA-256 checksum is verified by makepkg.
-Use `makepkg -si` here to build and install it locally.
+This directory contains the `dotinput-git` PKGBUILD. It builds the current
+main branch so new renderers can be tested before a stable release. Use
+`makepkg -si` here to build and install it locally.
 
-The intended AUR package name is `fcitx5-dynamic-themes`. Publishing still requires an
+The intended AUR development package name is `dotinput-git`. Publishing still requires an
 AUR account with this machine's SSH public key registered; GitHub credentials
 do not grant AUR push access.
 
 The package installs code and provider assets only. It never writes a user's
 Noctalia or Fcitx5 configuration during pacman installation. Users explicitly
-run `fcitx5-dynamic-themes-noctalia-setup` to enable the Noctalia provider.
+run `dotinput-noctalia-setup` to enable the Noctalia provider.

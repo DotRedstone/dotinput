@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Fcitx5 Dynamic Themes semantic palette",
+  "title": "DotInput Themes semantic palette",
   "type": "object",
   "required": ["light", "dark"],
   "properties": {

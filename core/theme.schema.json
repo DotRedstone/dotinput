@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Fcitx5 Dynamic Themes theme config",
+  "title": "DotInput Themes theme config",
   "type": "object",
   "required": ["name", "mode", "variant", "palette"],
   "additionalProperties": false,

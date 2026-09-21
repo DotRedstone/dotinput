@@ -21,7 +21,7 @@ Each map needs these semantic color roles:
 Run a provider hook after its palette changes:
 
 ```bash
-fcitx5-dynamic-themes render \
+dotinput render \
   --palette "$XDG_CACHE_HOME/my-provider/palette.json" \
   --mode dark --variant rounded --reload
 ```

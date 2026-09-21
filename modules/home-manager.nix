@@ -1,5 +1,5 @@
 # ---
-# Module: Fcitx5 Dynamic Themes
+# Module: DotInput Themes
 # Description: Installs the optional Noctalia provider during Home Manager activation.
 # Scope: Home Manager
 # ---
@@ -7,16 +7,16 @@
 { config, lib, ... }:
 
 let
-  cfg = config.programs.fcitx5DynamicThemes;
+  cfg = config.programs.dotInput;
 in
 {
-  options.programs.fcitx5DynamicThemes = {
-    enable = lib.mkEnableOption "the Noctalia provider for Fcitx5 Dynamic Themes";
+  options.programs.dotInput = {
+    enable = lib.mkEnableOption "the Noctalia provider for DotInput Themes";
 
     source = lib.mkOption {
       type = lib.types.path;
       default = ../.;
-      description = "Path containing the Fcitx5 Dynamic Themes Noctalia provider.";
+      description = "Path containing the DotInput Themes Noctalia provider.";
     };
 
     applyOnActivation = lib.mkOption {
@@ -27,7 +27,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.activation.fcitx5DynamicThemes = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    home.activation.dotInput = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       ${cfg.source}/scripts/install.sh ${lib.optionalString (!cfg.applyOnActivation) "--no-apply"}
     '';
   };

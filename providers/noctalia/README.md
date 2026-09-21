@@ -6,8 +6,8 @@ want Fcitx5 to follow it automatically.
 ## Setup
 
 ```bash
-git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
-cd fcitx5-dynamic-themes
+git clone https://github.com/DotRedstone/dotinput.git
+cd dotinput
 ./scripts/install.sh
 ```
 

@@ -1,23 +1,24 @@
-# Fcitx5 Dynamic Themes
+# DotInput Themes
 
 [English](#english) | [简体中文](#简体中文)
 
 ## English
 
-Provider-agnostic dynamic color themes for Fcitx5 Classic UI. A color provider
-supplies a semantic palette, this project renders complete Fcitx5 assets, and
-Classic UI reloads without restarting the input method. Noctalia is the first
-fully integrated provider, not a project-wide requirement.
+An extensible theme toolkit for Linux input methods. Its first renderer targets
+Fcitx5 Classic UI: a color provider supplies a semantic palette, DotInput
+renders complete Fcitx5 assets, and Classic UI reloads without restarting the
+input method. Noctalia is the first fully integrated provider, not a project-wide
+requirement.
 
 | Delivery | Status | Entry point |
 | --- | --- | --- |
-| Nix Flake | Ready | `nix profile install github:DotRedstone/fcitx5-dynamic-themes` |
-| Arch PKGBUILD | Ready | `packaging/arch/PKGBUILD` |
-| AUR | Pending AUR SSH key | Package name: `fcitx5-dynamic-themes` |
+| Nix Flake | Ready | `nix profile install github:DotRedstone/dotinput` |
+| Arch PKGBUILD | Development | `packaging/arch/PKGBUILD` (`dotinput-git`) |
+| AUR | Pending AUR SSH key | Package name: `dotinput` |
 
 ### Start here
 
-1. Open [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) and pick a style plus a color theme.
+1. Open [Theme Studio](https://blog.dotres.cn/dotinput/) and pick a style plus a color theme.
 2. Adjust geometry or colors only when you want to.
 3. Click **Copy install command**, paste it into a terminal, and run it. The one-line
    Nix command downloads the renderer if needed, writes the theme, and reloads Classic UI.
@@ -38,8 +39,8 @@ selected in Fcitx5.
 Requirements: Fcitx5 Classic UI and Noctalia v5 with user templates enabled.
 
 ```bash
-git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
-cd fcitx5-dynamic-themes
+git clone https://github.com/DotRedstone/dotinput.git
+cd dotinput
 ./scripts/install.sh
 ```
 
@@ -59,7 +60,7 @@ The generic command accepts palette JSON matching
 [core/palette.schema.json](core/palette.schema.json):
 
 ```bash
-fcitx5-dynamic-themes render \
+dotinput render \
   --palette "$XDG_CACHE_HOME/my-provider/palette.json" \
   --mode dark --variant rounded --reload
 ```
@@ -71,7 +72,7 @@ test palette.
 
 ### Theme Studio
 
-[Open Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) keeps style
+[Open Theme Studio](https://blog.dotres.cn/dotinput/) keeps style
 and color independent. Pick one of four rounded style themes (Studio, Compact,
 Soft, or Outlined), then combine it with one of ten color themes. Every color
 theme includes light and dark semantic palettes; every style theme includes its
@@ -96,7 +97,7 @@ JSON file. The output is a regular writable Fcitx5 Classic UI theme and
 `--reload` updates only Classic UI:
 
 ```bash
-nix run github:DotRedstone/fcitx5-dynamic-themes -- render \
+nix run github:DotRedstone/dotinput -- render \
   --config-base64 '<Theme-Studio-command-data>' --reload
 ```
 
@@ -117,27 +118,27 @@ keep each SVG at `30x30` with a `60x60` viewBox when following its geometry.
 Install the command-line renderer and Noctalia setup helper into a profile:
 
 ```bash
-nix profile install github:DotRedstone/fcitx5-dynamic-themes
-fcitx5-dynamic-themes --help
-fcitx5-dynamic-themes-noctalia-setup
+nix profile install github:DotRedstone/dotinput
+dotinput --help
+dotinput-noctalia-setup
 ```
 
 Run the renderer without installing it permanently:
 
 ```bash
-nix run github:DotRedstone/fcitx5-dynamic-themes -- --help
+nix run github:DotRedstone/dotinput -- --help
 ```
 
 For Home Manager, use both the package and the declarative Noctalia provider:
 
 ```nix
 {
-  inputs.fcitx5-dynamic-themes.url = "github:DotRedstone/fcitx5-dynamic-themes";
+  inputs.dotinput.url = "github:DotRedstone/dotinput";
 
-  imports = [ inputs.fcitx5-dynamic-themes.homeManagerModules.default ];
+  imports = [ inputs.dotinput.homeManagerModules.default ];
 
   home.packages = [
-    inputs.fcitx5-dynamic-themes.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.dotinput.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   programs.fcitx5DynamicThemes = {
@@ -154,17 +155,17 @@ activation, then run `noctalia msg templates-apply` after login.
 
 ### Arch / AUR
 
-The PKGBUILD is pinned to the immutable `v0.3.0` source tarball and has a real
-SHA-256 checksum. Build and install it locally on Arch Linux:
+The current PKGBUILD builds the main branch as `dotinput-git`. Build and install
+it locally on Arch Linux:
 
 ```bash
-git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
-cd fcitx5-dynamic-themes/packaging/arch
+git clone https://github.com/DotRedstone/dotinput.git
+cd dotinput/packaging/arch
 makepkg -si
-fcitx5-dynamic-themes-noctalia-setup
+dotinput-noctalia-setup
 ```
 
-The intended AUR package name is `fcitx5-dynamic-themes`, but publication is
+The intended AUR package name is `dotinput`, but publication is
 waiting for the maintainer's AUR SSH key. Package installation never modifies
 user Fcitx5 or Noctalia configuration; the setup command is always explicit.
 
@@ -178,19 +179,19 @@ nix build .# --no-link
 
 ## 简体中文
 
-这是一个面向 Fcitx5 Classic UI 的动态配色主题项目。调色板提供方输出
-语义色彩，本项目据此生成完整的 Fcitx5 主题文件，并仅热加载 Classic UI，
-不会重启输入法。Noctalia 是第一个完整接入的提供方，但并不是项目的前置依赖。
+这是一个可扩展的 Linux 输入法主题工具箱。第一个 renderer 面向 Fcitx5 Classic UI：
+调色板提供方输出语义色彩，DotInput 据此生成完整的 Fcitx5 主题文件，并仅热加载
+Classic UI，不会重启输入法。Noctalia 是第一个完整接入的提供方，但并不是项目的前置依赖。
 
 | 分发方式 | 状态 | 安装入口 |
 | --- | --- | --- |
-| Nix Flake | 已可用 | `nix profile install github:DotRedstone/fcitx5-dynamic-themes` |
-| Arch PKGBUILD | 已可用 | `packaging/arch/PKGBUILD` |
-| AUR | 等待 AUR SSH 密钥 | 包名：`fcitx5-dynamic-themes` |
+| Nix Flake | 已可用 | `nix profile install github:DotRedstone/dotinput` |
+| Arch PKGBUILD | 开发版 | `packaging/arch/PKGBUILD`（`dotinput-git`） |
+| AUR | 等待 AUR SSH 密钥 | 包名：`dotinput` |
 
 ### 三步开始
 
-1. 打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，先选样式主题和配色主题。
+1. 打开 [Theme Studio](https://blog.dotres.cn/dotinput/)，先选样式主题和配色主题。
 2. 只在需要时微调颜色或几何参数。
 3. 点击“复制安装命令”，粘贴进终端执行。一行 Nix 命令会按需下载渲染器、写入主题并热加载 Classic UI。
 
@@ -209,8 +210,8 @@ nix build .# --no-link
 前提：已启用 Fcitx5 Classic UI，并使用支持用户模板的 Noctalia v5。
 
 ```bash
-git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
-cd fcitx5-dynamic-themes
+git clone https://github.com/DotRedstone/dotinput.git
+cd dotinput
 ./scripts/install.sh
 ```
 
@@ -229,7 +230,7 @@ Theme=fcitx5-dynamic-rounded-dark
 通用命令接收符合 [core/palette.schema.json](core/palette.schema.json) 的 JSON：
 
 ```bash
-fcitx5-dynamic-themes render \
+dotinput render \
   --palette "$XDG_CACHE_HOME/my-provider/palette.json" \
   --mode dark --variant rounded --reload
 ```
@@ -239,7 +240,7 @@ fcitx5-dynamic-themes render \
 
 ### Theme Studio 可视化编辑器
 
-打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) 时，样式和配色彼此独立：可先从工作室、紧凑、
+打开 [Theme Studio](https://blog.dotres.cn/dotinput/) 时，样式和配色彼此独立：可先从工作室、紧凑、
 柔润、描边四套圆角样式中选一套，再搭配十套配色主题。每套配色都有深浅两组语义色；每套样式决定圆角、描边、
 内环与边距。所有支持写入主题的参数都直接展示：面板/高亮圆角、描边、内容与文字边距、图片切片、内环、
 纵向满宽高亮和候选注释缩放。
@@ -253,7 +254,7 @@ fcitx5-dynamic-themes render \
 `--reload` 只会热加载 Classic UI：
 
 ```bash
-nix run github:DotRedstone/fcitx5-dynamic-themes -- render \
+nix run github:DotRedstone/dotinput -- render \
   --config-base64 '<Theme-Studio-command-data>' --reload
 ```
 
@@ -272,27 +273,27 @@ Theme Studio 没有账号、后端或遥测，源码就是仓库中的 [`web/`](
 将通用渲染命令和 Noctalia 设置工具安装进用户 profile：
 
 ```bash
-nix profile install github:DotRedstone/fcitx5-dynamic-themes
-fcitx5-dynamic-themes --help
-fcitx5-dynamic-themes-noctalia-setup
+nix profile install github:DotRedstone/dotinput
+dotinput --help
+dotinput-noctalia-setup
 ```
 
 无需安装、临时运行渲染器：
 
 ```bash
-nix run github:DotRedstone/fcitx5-dynamic-themes -- --help
+nix run github:DotRedstone/dotinput -- --help
 ```
 
 Home Manager 同时安装软件包并启用声明式 Noctalia 提供方：
 
 ```nix
 {
-  inputs.fcitx5-dynamic-themes.url = "github:DotRedstone/fcitx5-dynamic-themes";
+  inputs.dotinput.url = "github:DotRedstone/dotinput";
 
-  imports = [ inputs.fcitx5-dynamic-themes.homeManagerModules.default ];
+  imports = [ inputs.dotinput.homeManagerModules.default ];
 
   home.packages = [
-    inputs.fcitx5-dynamic-themes.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.dotinput.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   programs.fcitx5DynamicThemes = {
@@ -308,17 +309,16 @@ Home Manager 同时安装软件包并启用声明式 Noctalia 提供方：
 
 ### Arch / AUR
 
-PKGBUILD 已固定到不可变的 `v0.3.0` 源码 tarball，并写入真实 SHA-256 校验和。
-在 Arch Linux 上可直接本地构建并安装：
+当前 PKGBUILD 会将 main 分支构建为 `dotinput-git`。在 Arch Linux 上可直接本地构建并安装：
 
 ```bash
-git clone https://github.com/DotRedstone/fcitx5-dynamic-themes.git
-cd fcitx5-dynamic-themes/packaging/arch
+git clone https://github.com/DotRedstone/dotinput.git
+cd dotinput/packaging/arch
 makepkg -si
-fcitx5-dynamic-themes-noctalia-setup
+dotinput-noctalia-setup
 ```
 
-AUR 计划使用的包名为 `fcitx5-dynamic-themes`，但发布仍等待维护者绑定 AUR SSH 密钥。
+AUR 计划使用的包名为 `dotinput`，但发布仍等待维护者绑定 AUR SSH 密钥。
 软件包安装不会改动用户的 Fcitx5 或 Noctalia 配置；启用提供方始终需要用户显式运行设置命令。
 
 ### 开发与验证

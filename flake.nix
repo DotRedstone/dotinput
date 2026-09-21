@@ -1,5 +1,5 @@
 {
-  description = "Provider-agnostic dynamic color themes for Fcitx5 Classic UI";
+  description = "Extensible Linux input method themes, with Fcitx5 Classic UI support";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -13,14 +13,14 @@
         let
           pkgs = import nixpkgs { inherit system; };
           package = pkgs.python3Packages.buildPythonApplication {
-            pname = "fcitx5-dynamic-themes";
+            pname = "dotinput";
             version = "0.3.0";
             pyproject = true;
             src = self;
             nativeBuildInputs = [ pkgs.python3Packages.setuptools ];
             postInstall = ''
               cp -r providers "$out/providers"
-              install -Dm755 scripts/install.sh "$out/bin/fcitx5-dynamic-themes-noctalia-setup"
+              install -Dm755 scripts/install.sh "$out/bin/dotinput-noctalia-setup"
             '';
             doCheck = true;
             checkPhase = ''
@@ -30,14 +30,14 @@
         in
         {
           default = package;
-          fcitx5-dynamic-themes = package;
+          dotinput = package;
         });
 
       apps = forAllSystems (system: {
         default = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/fcitx5-dynamic-themes";
-          meta.description = "Render dynamic Fcitx5 Classic UI themes";
+          program = "${self.packages.${system}.default}/bin/dotinput";
+          meta.description = "Render DotInput Fcitx5 Classic UI themes";
         };
       });
 

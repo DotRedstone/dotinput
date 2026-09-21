@@ -156,7 +156,7 @@ def _theme_conf(
     return f'''[Metadata]
 Name={name}
 Version=0.3.0
-Author=fcitx5-dynamic-themes
+Author=dotinput
 Description="Dynamic {variant} theme for {compatibility}."
 
 [InputPanel]

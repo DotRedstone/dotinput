@@ -4,8 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from fcitx5_dynamic_themes.cli import main
-from fcitx5_dynamic_themes.renderer import render_theme, validate_design, validate_palette
+from dotinput.cli import main
+from dotinput.renderer import render_theme, validate_design, validate_palette
 
 
 PALETTE = {

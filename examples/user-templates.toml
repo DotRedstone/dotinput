@@ -1,15 +1,15 @@
 # Replace @PROJECT_ROOT@ with the absolute path of this repository.
 # scripts/install.sh writes an equivalent, ready-to-use configuration.
 
-[theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_light_theme]
+[theme.templates.user.dotinput_noctalia_rounded_light_theme]
 input_path = "@PROJECT_ROOT@/providers/noctalia/templates/rounded-light/theme.conf.template"
 output_path = "/home/USER/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/theme.conf"
 
-[theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_light_panel]
+[theme.templates.user.dotinput_noctalia_rounded_light_panel]
 input_path = "@PROJECT_ROOT@/providers/noctalia/templates/rounded-light/panel-md3.svg.template"
 output_path = "/home/USER/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/panel.svg"
 
-[theme.templates.user.fcitx5_dynamic_themes_noctalia_rounded_light_highlight]
+[theme.templates.user.dotinput_noctalia_rounded_light_highlight]
 input_path = "@PROJECT_ROOT@/providers/noctalia/templates/rounded-light/highlight-md3.svg.template"
 output_path = "/home/USER/.local/share/fcitx5/themes/fcitx5-dynamic-rounded-light/highlight.svg"
 

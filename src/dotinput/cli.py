@@ -11,6 +11,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import re
+import sys
 
 from .renderer import render_theme, validate_design, validate_palette
 
@@ -54,26 +55,30 @@ def _activate_classicui_theme(name: str, mode: str) -> Path:
     return config_path
 
 
-def _reload_classicui() -> None:
+def _reload_classicui() -> bool:
     busctl = shutil.which("busctl")
     if busctl is None:
-        return
-    subprocess.run(
-        [
-            busctl,
-            "--user",
-            "call",
-            "org.fcitx.Fcitx5",
-            "/controller",
-            "org.fcitx.Fcitx.Controller1",
-            "ReloadAddonConfig",
-            "s",
-            "classicui",
-        ],
-        check=False,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
+        return False
+    try:
+        result = subprocess.run(
+            [
+                busctl,
+                "--user",
+                "call",
+                "org.fcitx.Fcitx5",
+                "/controller",
+                "org.fcitx.Fcitx.Controller1",
+                "ReloadAddonConfig",
+                "s",
+                "classicui",
+            ],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except OSError:
+        return False
+    return result.returncode == 0
 
 
 def _read_json(path: Path) -> dict[str, object]:
@@ -137,7 +142,11 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="select the generated theme for its light or dark Classic UI mode",
     )
-    render.add_argument("--reload", action="store_true")
+    render.add_argument(
+        "--reload",
+        action="store_true",
+        help="reload Classic UI after rendering and report whether the request succeeded",
+    )
 
     validate = commands.add_parser("validate", help="validate a semantic palette JSON")
     validate.add_argument("--palette", type=Path, required=True)
@@ -175,9 +184,12 @@ def main(argv: list[str] | None = None) -> int:
         render_theme(colors, variant, target, name, design)
         if args.activate:
             _activate_classicui_theme(name, mode)
-        if args.reload:
-            _reload_classicui()
+        reloaded = _reload_classicui() if args.reload else None
         print(target)
+        if reloaded is True:
+            print("Classic UI reloaded")
+        elif reloaded is False:
+            print("warning: Classic UI was not reloaded; it will use this theme on its next start", file=sys.stderr)
         return 0
     except ValueError as error:
         parser.error(str(error))

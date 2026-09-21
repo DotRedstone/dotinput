@@ -15,6 +15,10 @@ copy.en.styleThemes = "Style";
 copy.zh.styleThemes = "样式主题";
 copy.en.colorThemes = "Color";
 copy.zh.colorThemes = "配色主题";
+copy.en.generateCommand = "Generate apply command";
+copy.zh.generateCommand = "生成应用命令";
+copy.en.commandHint = "Adjust the theme, then generate a command.";
+copy.zh.commandHint = "调好主题后，点击生成应用命令。";
 
 const defaults = {
   name: "my-input-theme",
@@ -57,6 +61,7 @@ let preview = { layout: "horizontal", candidateCount: 5 };
 let language = navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en";
 let selectedStyleTheme = "studio";
 let selectedColorTheme = "studio";
+let generatedCommand = null;
 const designControls = {
   "panel-radius": ["panel_radius", "panel-radius-value"],
   "highlight-radius": ["highlight_radius", "highlight-radius-value"],
@@ -87,6 +92,7 @@ function encodeConfig() {
   return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 function installCommand() { return `dotinput render --config-base64 '${encodeConfig()}' --activate --reload`; }
+function invalidateGeneratedCommand() { generatedCommand = null; }
 async function copyText(value) {
   try {
     await navigator.clipboard.writeText(value);
@@ -136,7 +142,7 @@ function applyLanguage() {
   document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
   document.title = t("pageTitle");
   document.querySelectorAll("[data-i18n]").forEach((element) => { element.textContent = t(element.dataset.i18n); });
-  [["reset", "reset"], ["reset-theme", "restoreDefaults"], ["import-label", "import"], ["repository-link", "repository"], ["candidate-less", "fewerCandidates"], ["candidate-more", "moreCandidates"], ["copy-config", "copyJson"], ["copy-command", "copyInstallCommand"]].forEach(([id, key]) => { byId(id).title = byId(id).ariaLabel = t(key); });
+  [["reset", "reset"], ["reset-theme", "restoreDefaults"], ["import-label", "import"], ["repository-link", "repository"], ["candidate-less", "fewerCandidates"], ["candidate-more", "moreCandidates"], ["copy-config", "copyJson"], ["generate-command", "generateCommand"], ["copy-command", "copyInstallCommand"]].forEach(([id, key]) => { byId(id).title = byId(id).ariaLabel = t(key); });
   document.querySelectorAll("[data-language]").forEach((button) => button.classList.toggle("active", button.dataset.language === language));
 }
 
@@ -146,9 +152,9 @@ function renderColorControls() {
     const row = document.createElement("div"); row.className = "color-row";
     const label = document.createElement("label"); label.htmlFor = `color-${role}`; label.textContent = role;
     const hex = document.createElement("input"); hex.className = "hex-input"; hex.type = "text"; hex.maxLength = 7; hex.value = colors[role]; hex.setAttribute("aria-label", `${role} hex value`);
-    const updateHex = () => { if (!/^#[0-9a-fA-F]{6}$/.test(hex.value)) return false; state.palette[state.mode][role] = hex.value.toUpperCase(); selectedColorTheme = null; render(); return true; };
+    const updateHex = () => { if (!/^#[0-9a-fA-F]{6}$/.test(hex.value)) return false; state.palette[state.mode][role] = hex.value.toUpperCase(); selectedColorTheme = null; invalidateGeneratedCommand(); render(); return true; };
     hex.addEventListener("input", updateHex); hex.addEventListener("change", () => { if (!updateHex()) render(); });
-    const picker = document.createElement("input"); picker.id = `color-${role}`; picker.className = "color-input"; picker.type = "color"; picker.value = colors[role]; picker.addEventListener("input", () => { state.palette[state.mode][role] = picker.value.toUpperCase(); selectedColorTheme = null; render(); });
+    const picker = document.createElement("input"); picker.id = `color-${role}`; picker.className = "color-input"; picker.type = "color"; picker.value = colors[role]; picker.addEventListener("input", () => { state.palette[state.mode][role] = picker.value.toUpperCase(); selectedColorTheme = null; invalidateGeneratedCommand(); render(); });
     row.append(label, hex, picker); return row;
   }));
 }
@@ -157,7 +163,7 @@ function renderStyleThemes() {
   byId("style-grid").replaceChildren(...styleThemes.map((theme) => {
     const button = document.createElement("button"); button.type = "button"; button.className = `preset-button${selectedStyleTheme === theme.id ? " active" : ""}`; button.setAttribute("role", "listitem"); button.title = theme.names[language]; button.setAttribute("aria-label", theme.names[language]);
     const silhouette = document.createElement("span"); silhouette.className = "style-silhouette"; silhouette.style.setProperty("--style-radius", `${theme.design.panel_radius / 2}px`); silhouette.style.setProperty("--style-outline", `${Math.max(theme.design.panel_outline_width / 2, 1)}px`);
-    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = theme.names[language]; button.append(silhouette, name); button.addEventListener("click", () => { state.design = structuredClone(theme.design); selectedStyleTheme = theme.id; render(); }); return button;
+    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = theme.names[language]; button.append(silhouette, name); button.addEventListener("click", () => { state.design = structuredClone(theme.design); selectedStyleTheme = theme.id; invalidateGeneratedCommand(); render(); }); return button;
   }));
 }
 
@@ -166,7 +172,7 @@ function renderColorThemes() {
     const button = document.createElement("button"); button.type = "button"; button.className = `color-theme-button${selectedColorTheme === theme.id ? " active" : ""}`; button.setAttribute("role", "listitem"); button.title = theme.names[language]; button.setAttribute("aria-label", theme.names[language]);
     const swatches = document.createElement("span"); swatches.className = "preset-swatches";
     ["surface", "primary", "outline_variant"].forEach((role) => { const swatch = document.createElement("span"); swatch.className = "preset-swatch"; swatch.style.background = theme.palette[state.mode][role]; swatches.append(swatch); });
-    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = theme.names[language]; button.append(swatches, name); button.addEventListener("click", () => { state.palette = structuredClone(theme.palette); selectedColorTheme = theme.id; render(); }); return button;
+    const name = document.createElement("span"); name.className = "preset-name"; name.textContent = theme.names[language]; button.append(swatches, name); button.addEventListener("click", () => { state.palette = structuredClone(theme.palette); selectedColorTheme = theme.id; invalidateGeneratedCommand(); render(); }); return button;
   }));
 }
 
@@ -189,7 +195,7 @@ function render() {
   byId("full-width-highlight").checked = state.design.full_width_highlight;
   byId("candidate-count").value = preview.candidateCount; byId("candidate-less").disabled = preview.candidateCount <= 3; byId("candidate-more").disabled = preview.candidateCount >= candidateWords.length;
   const panel = byId("candidate-panel"); panel.classList.toggle("horizontal", preview.layout === "horizontal"); panel.classList.toggle("full-width-highlight", state.design.full_width_highlight);
-  renderStyleThemes(); renderColorThemes(); renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = installCommand(); window.lucide.createIcons();
+  renderStyleThemes(); renderColorThemes(); renderColorControls(); renderCandidates(); byId("json-output").textContent = JSON.stringify(exportConfig(), null, 2); byId("install-command").textContent = generatedCommand || t("commandHint"); byId("install-command").classList.toggle("placeholder", !generatedCommand); byId("copy-command").disabled = !generatedCommand; window.lucide.createIcons();
 }
 
 function mergeImportedTheme(payload) {
@@ -202,19 +208,19 @@ function mergeImportedTheme(payload) {
   }
 }
 
-function copied(button) { const icon = button.querySelector("svg"); if (!icon) return; const previous = icon.outerHTML; icon.outerHTML = '<i data-lucide="check"></i>'; window.lucide.createIcons(); window.setTimeout(() => { button.innerHTML = previous; window.lucide.createIcons(); }, 1200); }
-function resetTheme() { state = structuredClone(defaults); selectedStyleTheme = "studio"; selectedColorTheme = "studio"; render(); }
+function copied(button) { const icon = button.querySelector("svg"); if (!icon) return; const previous = icon.outerHTML; icon.outerHTML = '<i data-lucide="check"></i>'; window.lucide.createIcons(); window.setTimeout(() => { const check = button.querySelector("svg"); if (check) check.outerHTML = previous; window.lucide.createIcons(); }, 1200); }
+function resetTheme() { state = structuredClone(defaults); selectedStyleTheme = "studio"; selectedColorTheme = "studio"; invalidateGeneratedCommand(); render(); }
 
 document.addEventListener("DOMContentLoaded", () => {
-  byId("theme-name").addEventListener("input", (event) => { state.name = event.target.value; render(); });
+  byId("theme-name").addEventListener("input", (event) => { state.name = event.target.value; invalidateGeneratedCommand(); render(); });
   document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", () => { language = button.dataset.language; render(); }));
-  document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => { state.mode = button.dataset.mode; render(); }));
+  document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => { state.mode = button.dataset.mode; invalidateGeneratedCommand(); render(); }));
   document.querySelectorAll("[data-preview-layout]").forEach((button) => button.addEventListener("click", () => { preview.layout = button.dataset.previewLayout; render(); }));
-  Object.entries(designControls).forEach(([id, [key]]) => byId(id).addEventListener("input", (event) => { state.design[key] = Number(event.target.value); selectedStyleTheme = null; render(); }));
-  byId("full-width-highlight").addEventListener("change", (event) => { state.design.full_width_highlight = event.target.checked; selectedStyleTheme = null; render(); });
+  Object.entries(designControls).forEach(([id, [key]]) => byId(id).addEventListener("input", (event) => { state.design[key] = Number(event.target.value); selectedStyleTheme = null; invalidateGeneratedCommand(); render(); }));
+  byId("full-width-highlight").addEventListener("change", (event) => { state.design.full_width_highlight = event.target.checked; selectedStyleTheme = null; invalidateGeneratedCommand(); render(); });
   byId("candidate-less").addEventListener("click", () => { preview.candidateCount = Math.max(3, preview.candidateCount - 1); render(); }); byId("candidate-more").addEventListener("click", () => { preview.candidateCount = Math.min(candidateWords.length, preview.candidateCount + 1); render(); });
   byId("reset").addEventListener("click", resetTheme); byId("reset-theme").addEventListener("click", resetTheme);
   byId("download").addEventListener("click", () => { const file = new Blob([JSON.stringify(exportConfig(), null, 2) + "\n"], { type: "application/json" }); const link = Object.assign(document.createElement("a"), { href: URL.createObjectURL(file), download: `${safeName(state.name)}.json` }); link.click(); URL.revokeObjectURL(link.href); });
-  byId("copy-config").addEventListener("click", async (event) => { await copyText(JSON.stringify(exportConfig(), null, 2)); copied(event.currentTarget); }); byId("copy-command").addEventListener("click", async (event) => { await copyText(installCommand()); copied(event.currentTarget); });
-  byId("import").addEventListener("change", async (event) => { const [file] = event.target.files; if (!file) return; try { mergeImportedTheme(JSON.parse(await file.text())); render(); } catch (error) { window.alert(error.message); } event.target.value = ""; }); render();
+  byId("copy-config").addEventListener("click", async (event) => { await copyText(JSON.stringify(exportConfig(), null, 2)); copied(event.currentTarget); }); byId("generate-command").addEventListener("click", () => { generatedCommand = installCommand(); render(); }); byId("copy-command").addEventListener("click", async (event) => { if (!generatedCommand) return; await copyText(generatedCommand); copied(event.currentTarget); });
+  byId("import").addEventListener("change", async (event) => { const [file] = event.target.files; if (!file) return; try { mergeImportedTheme(JSON.parse(await file.text())); invalidateGeneratedCommand(); render(); } catch (error) { window.alert(error.message); } event.target.value = ""; }); render();
 });

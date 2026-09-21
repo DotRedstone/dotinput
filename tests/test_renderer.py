@@ -125,10 +125,12 @@ class RendererTests(unittest.TestCase):
                 encoding="utf-8",
             )
             with patch.dict("os.environ", {"XDG_CONFIG_HOME": str(root)}, clear=False):
-                self.assertEqual(
-                    main(["render", "--config", str(config), "--target", str(target), "--activate"]),
-                    0,
-                )
+                with patch("dotinput.cli._reload_classicui", return_value=True) as reload_classicui:
+                    self.assertEqual(
+                        main(["render", "--config", str(config), "--target", str(target), "--activate", "--reload"]),
+                        0,
+                    )
+            reload_classicui.assert_called_once_with()
             content = classicui.read_text(encoding="utf-8")
             self.assertIn("Theme=light-theme", content)
             self.assertIn("DarkTheme=new-dark-theme", content)

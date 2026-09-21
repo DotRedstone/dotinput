@@ -20,8 +20,8 @@ requirement.
 
 1. Install DotInput once: `nix profile install github:DotRedstone/dotinput`.
 2. Open [Theme Studio](https://blog.dotres.cn/dotinput/), pick a style plus a color theme, and adjust it when you want to.
-3. Click **Copy apply command**, paste it into a terminal, and run it. The one-line
-   `dotinput` command writes the theme, selects it for the matching color mode, and reloads Classic UI.
+3. Click **Generate apply command** once the design is ready, then copy and run it. The one-line
+   `dotinput` command carries your JSON as URL-safe Base64, writes the theme, selects it for the matching color mode, and reloads Classic UI.
 
 For automatic wallpaper-synchronized colors, use the Noctalia setup below instead:
 it manages the palette updates while you keep the generated rounded theme
@@ -84,9 +84,10 @@ preview uses the same half-scale SVG geometry as the generated 30px asset with
 a 60px viewBox. Fcitx5 content and text margins remain raw pixels. It exports
 one portable theme configuration matching
 [core/theme.schema.json](core/theme.schema.json).
-The Studio has English and Simplified Chinese interfaces. Its primary path is a
-copy-and-run `dotinput` command containing URL-safe base64 configuration data;
-it does not upload your palette or create a configuration file. Theme JSON is
+The Studio has English and Simplified Chinese interfaces. It only creates the
+URL-safe Base64 argument when **Generate apply command** is clicked. The
+copy-and-run `dotinput` command does not upload your palette or create a
+configuration file; Base64 is only a transport for the current JSON. Theme JSON is
 still available as an optional backup and sharing format. Candidate orientation
 and candidate count are preview-only controls: they never enter the exported
 JSON and must be configured in Fcitx5 itself when you want to change real input
@@ -94,7 +95,8 @@ method behavior.
 
 The generated command invokes the equivalent of the following, without a local
 JSON file. The output is a regular writable Fcitx5 Classic UI theme and
-`--reload` updates only Classic UI:
+`--activate` selects the generated theme for the configuration's light or dark
+mode, while `--reload` requests and reports a Classic UI hot reload:
 
 ```bash
 dotinput render \
@@ -193,7 +195,7 @@ Classic UI，不会重启输入法。Noctalia 是第一个完整接入的提供�
 
 1. 先安装一次 DotInput：`nix profile install github:DotRedstone/dotinput`。
 2. 打开 [Theme Studio](https://blog.dotres.cn/dotinput/)，选择样式主题和配色主题，并按需微调。
-3. 点击“复制应用命令”，粘贴进终端执行。一行 `dotinput` 命令会写入主题、选中对应深浅模式，并热加载 Classic UI。
+3. 调好设计后点击“生成应用命令”，再复制并粘贴进终端执行。一行 `dotinput` 命令会将 JSON 以 URL-safe Base64 参数传递、写入主题、选中对应深浅模式，并热加载 Classic UI。
 
 想让配色跟壁纸自动同步，则使用下面的 Noctalia 接入：它负责更新调色板，而 Fcitx5
 继续选择生成出的圆角主题即可。
@@ -246,12 +248,13 @@ dotinput render \
 纵向满宽高亮和候选注释缩放。
 圆角预览遵循生成主题的 30px SVG 画布与 60px viewBox 的半缩放关系；而 Fcitx5 的内容和文字边距仍按原始像素
 计算。它会导出一个符合 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
-网站提供简体中文和英文界面。主流程生成一条带 URL-safe Base64 配置的 `dotinput` 命令：不上传调色板、
-不创建配置文件；JSON 仍可作为可选的备份和分享格式。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
+网站提供简体中文和英文界面。只有点击“生成应用命令”时，网页才会把当前 JSON 编码为 URL-safe Base64
+参数。主流程生成的 `dotinput` 命令不上传调色板、不创建配置文件；Base64 只是当前 JSON 的传递方式，JSON
+仍可作为可选的备份和分享格式。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
 导出的 JSON；实际输入法的候选窗行为仍需在 Fcitx5 中单独配置。
 
 生成的命令无需 JSON 文件；产物是用户目录中普通、可写的 Fcitx5 Classic UI 主题，
-`--reload` 只会热加载 Classic UI：
+`--activate` 会按配置的浅色或深色模式选中生成主题，`--reload` 会请求并报告 Classic UI 的热加载结果：
 
 ```bash
 dotinput render \

@@ -105,6 +105,8 @@ dotinput render \
 
 The Studio has no account, backend, or telemetry. Its source is static in
 [`web/`](web/), so it can also be opened locally or hosted anywhere.
+For a frontend redesign handoff, see the behavior contract in
+[`web/README.md`](web/README.md).
 
 ### Custom SVG assets
 
@@ -263,6 +265,7 @@ dotinput render \
 
 Theme Studio 没有账号、后端或遥测，源码就是仓库中的 [`web/`](web/)，因此也能离线打开
 或部署到任何静态站点服务。
+交给前端重设计的行为契约见 [`web/README.md`](web/README.md)。
 
 ### 自定义 SVG 素材
 

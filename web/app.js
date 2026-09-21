@@ -88,6 +88,23 @@ function encodeConfig() {
 }
 function installCommand() { return `nix run github:DotRedstone/fcitx5-dynamic-themes -- render --config-base64 '${encodeConfig()}' --reload`; }
 function installCommandPreview() { return "nix run github:DotRedstone/fcitx5-dynamic-themes -- render --config-base64 '<generated-theme-data>' --reload"; }
+async function copyText(value) {
+  try {
+    await navigator.clipboard.writeText(value);
+    return;
+  } catch (_) {
+    const fallback = document.createElement("textarea");
+    fallback.value = value;
+    fallback.setAttribute("readonly", "");
+    fallback.style.position = "fixed";
+    fallback.style.opacity = "0";
+    document.body.append(fallback);
+    fallback.select();
+    const copied = document.execCommand("copy");
+    fallback.remove();
+    if (!copied) throw new Error("Clipboard access is unavailable.");
+  }
+}
 function displayValue(id, value) {
   if (scaledControls.has(id)) return `${asNumber(value)} ${t("raw")} / ${asNumber(value * previewScale)} ${t("visible")}`;
   return asNumber(value);
@@ -199,6 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
   byId("candidate-less").addEventListener("click", () => { preview.candidateCount = Math.max(3, preview.candidateCount - 1); render(); }); byId("candidate-more").addEventListener("click", () => { preview.candidateCount = Math.min(candidateWords.length, preview.candidateCount + 1); render(); });
   byId("reset").addEventListener("click", resetTheme); byId("reset-theme").addEventListener("click", resetTheme);
   byId("download").addEventListener("click", () => { const file = new Blob([JSON.stringify(exportConfig(), null, 2) + "\n"], { type: "application/json" }); const link = Object.assign(document.createElement("a"), { href: URL.createObjectURL(file), download: `${safeName(state.name)}.json` }); link.click(); URL.revokeObjectURL(link.href); });
-  byId("copy-config").addEventListener("click", async (event) => { await navigator.clipboard.writeText(JSON.stringify(exportConfig(), null, 2)); copied(event.currentTarget); }); byId("copy-command").addEventListener("click", async (event) => { await navigator.clipboard.writeText(installCommand()); copied(event.currentTarget); });
+  byId("copy-config").addEventListener("click", async (event) => { await copyText(JSON.stringify(exportConfig(), null, 2)); copied(event.currentTarget); }); byId("copy-command").addEventListener("click", async (event) => { await copyText(installCommand()); copied(event.currentTarget); });
   byId("import").addEventListener("change", async (event) => { const [file] = event.target.files; if (!file) return; try { mergeImportedTheme(JSON.parse(await file.text())); render(); } catch (error) { window.alert(error.message); } event.target.value = ""; }); render();
 });

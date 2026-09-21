@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <title>Fcitx5 Dynamic Themes Studio</title>
-    <link rel="stylesheet" href="styles.css?v=fcitx-layout-v5" />
+    <link rel="stylesheet" href="styles.css?v=fcitx-layout-v6" />
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <script src="app.js?v=fcitx-layout-v8" defer></script>
+    <script src="app.js?v=fcitx-layout-v9" defer></script>
   </head>
   <body>
     <header class="top-app-bar">
@@ -76,10 +76,17 @@
       </section>
 
       <aside class="export-panel surface-panel" aria-label="Theme export">
-        <div class="panel-title"><span data-i18n="themeJson">Theme JSON</span><button id="copy-config" class="icon-button compact" type="button" title="Copy JSON" aria-label="Copy JSON"><i data-lucide="copy"></i></button></div>
-        <pre id="json-output" class="json-output"></pre>
-        <button id="download" class="filled-button" type="button"><i data-lucide="download"></i><span data-i18n="downloadJson">Download JSON</span></button>
-        <section class="install-section"><div class="panel-title"><span data-i18n="install">Install</span><button id="copy-command" class="icon-button compact" type="button" title="Copy command" aria-label="Copy command"><i data-lucide="copy"></i></button></div><code id="install-command" class="install-command"></code></section>
+        <section class="quick-install">
+          <div class="panel-title"><span data-i18n="quickInstall">Quick install</span></div>
+          <code id="install-command" class="install-command"></code>
+          <button id="copy-command" class="filled-button" type="button" title="Copy install command" aria-label="Copy install command"><i data-lucide="terminal"></i><span data-i18n="copyInstallCommand">Copy install command</span></button>
+        </section>
+        <details class="json-backup">
+          <summary data-i18n="themeJsonBackup">Theme JSON backup</summary>
+          <div class="panel-title"><span data-i18n="themeJson">Theme JSON</span><button id="copy-config" class="icon-button compact" type="button" title="Copy JSON" aria-label="Copy JSON"><i data-lucide="copy"></i></button></div>
+          <pre id="json-output" class="json-output"></pre>
+          <button id="download" class="outlined-button" type="button"><i data-lucide="download"></i><span data-i18n="downloadJson">Download JSON</span></button>
+        </details>
       </aside>
     </main>
   </body>

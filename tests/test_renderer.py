@@ -1,3 +1,4 @@
+import base64
 import json
 import tempfile
 import unittest
@@ -89,6 +90,23 @@ class RendererTests(unittest.TestCase):
             self.assertNotIn("CandidateLabelTextSizeFactor", (target / "theme.conf").read_text())
             self.assertIn("[InputPanel/TextMargin]\nLeft=8", (target / "theme.conf").read_text())
             self.assertIn("Top=5\nBottom=6", (target / "theme.conf").read_text())
+
+    def test_cli_renders_base64_theme_studio_config(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "theme"
+            config = {
+                "name": "base64-theme",
+                "mode": "dark",
+                "variant": "rounded",
+                "palette": PALETTE,
+                "design": {"panel_radius": 20, "highlight_radius": 16},
+            }
+            encoded = base64.urlsafe_b64encode(json.dumps(config).encode()).decode().rstrip("=")
+            self.assertEqual(
+                main(["render", "--config-base64", encoded, "--target", str(target)]), 0
+            )
+            self.assertIn('rx="20"', (target / "panel.svg").read_text())
+            self.assertIn('rx="16"', (target / "highlight.svg").read_text())
 
     def test_cli_rejects_unsafe_theme_config_name(self):
         with self.assertRaises(SystemExit):

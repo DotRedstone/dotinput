@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import json
 from pathlib import Path
 import shutil
@@ -53,6 +55,19 @@ def _read_json(path: Path) -> dict[str, object]:
     return decoded
 
 
+def _read_base64_json(value: str) -> dict[str, object]:
+    """Decode a URL-safe, padding-free Theme Studio configuration."""
+    try:
+        padding = "=" * (-len(value) % 4)
+        decoded = base64.b64decode(value + padding, altchars=b"-_", validate=True)
+        payload = json.loads(decoded.decode("utf-8"))
+    except (ValueError, UnicodeDecodeError, binascii.Error, json.JSONDecodeError) as error:
+        raise ValueError("invalid base64 theme config") from error
+    if not isinstance(payload, dict):
+        raise ValueError("theme config root must be a JSON object")
+    return payload
+
+
 def _theme_config(payload: dict[str, object]) -> tuple[dict[str, object], dict[str, float], str | None, str | None, str | None]:
     palette = payload.get("palette")
     if not isinstance(palette, dict):
@@ -76,6 +91,10 @@ def main(argv: list[str] | None = None) -> int:
     source = render.add_mutually_exclusive_group(required=True)
     source.add_argument("--palette", type=Path)
     source.add_argument("--config", type=Path, help="theme config exported by Theme Studio")
+    source.add_argument(
+        "--config-base64",
+        help="URL-safe base64 Theme Studio config for copy-and-run installation",
+    )
     render.add_argument("--mode", choices=("light", "dark"))
     render.add_argument("--variant", choices=("rounded", "angular"))
     render.add_argument("--name")
@@ -96,6 +115,10 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.config:
             palette, design, config_name, config_mode, config_variant = _theme_config(_read_json(args.config))
+        elif args.config_base64:
+            palette, design, config_name, config_mode, config_variant = _theme_config(
+                _read_base64_json(args.config_base64)
+            )
         else:
             palette = _read_json(args.palette)
             design = validate_design(None)

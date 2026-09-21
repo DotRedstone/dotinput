@@ -18,8 +18,9 @@ fully integrated provider, not a project-wide requirement.
 ### Start here
 
 1. Open [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/) and pick a style plus a color theme.
-2. Adjust geometry or colors only when you want to, then download the JSON.
-3. Run `fcitx5-dynamic-themes render --config ~/Downloads/my-fcitx-theme.json --reload`.
+2. Adjust geometry or colors only when you want to.
+3. Click **Copy install command**, paste it into a terminal, and run it. The one-line
+   Nix command downloads the renderer if needed, writes the theme, and reloads Classic UI.
 
 For automatic wallpaper-synchronized colors, use the Noctalia setup below instead:
 it manages the palette updates while you keep the generated rounded theme
@@ -82,17 +83,21 @@ preview uses the same half-scale SVG geometry as the generated 30px asset with
 a 60px viewBox. Fcitx5 content and text margins remain raw pixels. It exports
 one portable theme configuration matching
 [core/theme.schema.json](core/theme.schema.json).
-The Studio has English and Simplified Chinese interfaces. Candidate orientation
+The Studio has English and Simplified Chinese interfaces. Its primary path is a
+copy-and-run `nix run` command containing URL-safe base64 configuration data;
+it does not upload your palette or create a configuration file. Theme JSON is
+still available as an optional backup and sharing format. Candidate orientation
 and candidate count are preview-only controls: they never enter the exported
 JSON and must be configured in Fcitx5 itself when you want to change real input
 method behavior.
 
-Render a downloaded configuration directly. The output is a regular writable
-Fcitx5 Classic UI theme and `--reload` updates only Classic UI:
+The generated command invokes the equivalent of the following, without a local
+JSON file. The output is a regular writable Fcitx5 Classic UI theme and
+`--reload` updates only Classic UI:
 
 ```bash
-fcitx5-dynamic-themes render \
-  --config ~/Downloads/my-fcitx-theme.json --reload
+nix run github:DotRedstone/fcitx5-dynamic-themes -- render \
+  --config-base64 '<Theme-Studio-command-data>' --reload
 ```
 
 The Studio has no account, backend, or telemetry. Its source is static in
@@ -186,8 +191,8 @@ nix build .# --no-link
 ### 三步开始
 
 1. 打开 [Theme Studio](https://blog.dotres.cn/fcitx5-dynamic-themes/)，先选样式主题和配色主题。
-2. 只在需要时微调颜色或几何参数，然后下载 JSON。
-3. 运行 `fcitx5-dynamic-themes render --config ~/Downloads/my-fcitx-theme.json --reload`。
+2. 只在需要时微调颜色或几何参数。
+3. 点击“复制安装命令”，粘贴进终端执行。一行 Nix 命令会按需下载渲染器、写入主题并热加载 Classic UI。
 
 想让配色跟壁纸自动同步，则使用下面的 Noctalia 接入：它负责更新调色板，而 Fcitx5
 继续选择生成出的圆角主题即可。
@@ -240,15 +245,16 @@ fcitx5-dynamic-themes render \
 纵向满宽高亮和候选注释缩放。
 圆角预览遵循生成主题的 30px SVG 画布与 60px viewBox 的半缩放关系；而 Fcitx5 的内容和文字边距仍按原始像素
 计算。它会导出一个符合 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
-网站提供简体中文和英文界面。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
+网站提供简体中文和英文界面。主流程生成一条带 URL-safe Base64 配置的 `nix run` 命令：不上传调色板、
+不创建配置文件；JSON 仍可作为可选的备份和分享格式。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
 导出的 JSON；实际输入法的候选窗行为仍需在 Fcitx5 中单独配置。
 
-下载配置后可直接生成主题；产物是用户目录中普通、可写的 Fcitx5 Classic UI 主题，
+生成的命令无需 JSON 文件；产物是用户目录中普通、可写的 Fcitx5 Classic UI 主题，
 `--reload` 只会热加载 Classic UI：
 
 ```bash
-fcitx5-dynamic-themes render \
-  --config ~/Downloads/my-fcitx-theme.json --reload
+nix run github:DotRedstone/fcitx5-dynamic-themes -- render \
+  --config-base64 '<Theme-Studio-command-data>' --reload
 ```
 
 Theme Studio 没有账号、后端或遥测，源码就是仓库中的 [`web/`](web/)，因此也能离线打开

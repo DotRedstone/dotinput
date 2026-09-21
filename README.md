@@ -18,10 +18,10 @@ requirement.
 
 ### Start here
 
-1. Open [Theme Studio](https://blog.dotres.cn/dotinput/) and pick a style plus a color theme.
-2. Adjust geometry or colors only when you want to.
-3. Click **Copy install command**, paste it into a terminal, and run it. The one-line
-   Nix command downloads the renderer if needed, writes the theme, and reloads Classic UI.
+1. Install DotInput once: `nix profile install github:DotRedstone/dotinput`.
+2. Open [Theme Studio](https://blog.dotres.cn/dotinput/), pick a style plus a color theme, and adjust it when you want to.
+3. Click **Copy apply command**, paste it into a terminal, and run it. The one-line
+   `dotinput` command writes the theme and reloads Classic UI.
 
 For automatic wallpaper-synchronized colors, use the Noctalia setup below instead:
 it manages the palette updates while you keep the generated rounded theme
@@ -85,7 +85,7 @@ a 60px viewBox. Fcitx5 content and text margins remain raw pixels. It exports
 one portable theme configuration matching
 [core/theme.schema.json](core/theme.schema.json).
 The Studio has English and Simplified Chinese interfaces. Its primary path is a
-copy-and-run `nix run` command containing URL-safe base64 configuration data;
+copy-and-run `dotinput` command containing URL-safe base64 configuration data;
 it does not upload your palette or create a configuration file. Theme JSON is
 still available as an optional backup and sharing format. Candidate orientation
 and candidate count are preview-only controls: they never enter the exported
@@ -97,7 +97,7 @@ JSON file. The output is a regular writable Fcitx5 Classic UI theme and
 `--reload` updates only Classic UI:
 
 ```bash
-nix run github:DotRedstone/dotinput -- render \
+dotinput render \
   --config-base64 '<Theme-Studio-command-data>' --reload
 ```
 
@@ -191,9 +191,9 @@ Classic UI，不会重启输入法。Noctalia 是第一个完整接入的提供�
 
 ### 三步开始
 
-1. 打开 [Theme Studio](https://blog.dotres.cn/dotinput/)，先选样式主题和配色主题。
-2. 只在需要时微调颜色或几何参数。
-3. 点击“复制安装命令”，粘贴进终端执行。一行 Nix 命令会按需下载渲染器、写入主题并热加载 Classic UI。
+1. 先安装一次 DotInput：`nix profile install github:DotRedstone/dotinput`。
+2. 打开 [Theme Studio](https://blog.dotres.cn/dotinput/)，选择样式主题和配色主题，并按需微调。
+3. 点击“复制应用命令”，粘贴进终端执行。一行 `dotinput` 命令会写入主题并热加载 Classic UI。
 
 想让配色跟壁纸自动同步，则使用下面的 Noctalia 接入：它负责更新调色板，而 Fcitx5
 继续选择生成出的圆角主题即可。
@@ -246,7 +246,7 @@ dotinput render \
 纵向满宽高亮和候选注释缩放。
 圆角预览遵循生成主题的 30px SVG 画布与 60px viewBox 的半缩放关系；而 Fcitx5 的内容和文字边距仍按原始像素
 计算。它会导出一个符合 [core/theme.schema.json](core/theme.schema.json) 的可移植主题配置文件。
-网站提供简体中文和英文界面。主流程生成一条带 URL-safe Base64 配置的 `nix run` 命令：不上传调色板、
+网站提供简体中文和英文界面。主流程生成一条带 URL-safe Base64 配置的 `dotinput` 命令：不上传调色板、
 不创建配置文件；JSON 仍可作为可选的备份和分享格式。候选词横向/纵向布局和候选词数量只是预览控件，不会进入
 导出的 JSON；实际输入法的候选窗行为仍需在 Fcitx5 中单独配置。
 
@@ -254,7 +254,7 @@ dotinput render \
 `--reload` 只会热加载 Classic UI：
 
 ```bash
-nix run github:DotRedstone/dotinput -- render \
+dotinput render \
   --config-base64 '<Theme-Studio-command-data>' --reload
 ```
 
